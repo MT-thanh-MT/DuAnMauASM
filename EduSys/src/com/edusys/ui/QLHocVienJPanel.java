@@ -36,6 +36,21 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         pnlKH = new javax.swing.JPanel();
         cbbKhoaHoc = new javax.swing.JComboBox<>();
         pnlQLHVBottom = new javax.swing.JPanel();
+        pnlTabs = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        btnXoaHV = new javax.swing.JButton();
+        btnSuaDiem = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblHocVien = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        txtTimKiem = new javax.swing.JTextField();
+        btnTimKiem = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        btnThemVaoKH = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblNguoiHoc = new javax.swing.JTable();
 
         pnlCardQlHocVien.setBackground(new java.awt.Color(34, 40, 44));
         pnlCardQlHocVien.setLayout(new java.awt.BorderLayout());
@@ -53,7 +68,7 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         pnlQLHVTop.add(lblQLHocVienTitle, java.awt.BorderLayout.NORTH);
 
         jPanel6.setBackground(new java.awt.Color(34, 40, 44));
-        jPanel6.setLayout(new java.awt.GridLayout());
+        jPanel6.setLayout(new java.awt.GridLayout(1, 0));
 
         pnlCD.setBackground(new java.awt.Color(34, 40, 44));
         pnlCD.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED), "CHUYÊN ĐỀ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14), new java.awt.Color(255, 102, 102))); // NOI18N
@@ -108,17 +123,109 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         pnlCardQlHocVien.add(pnlQLHVTop, java.awt.BorderLayout.PAGE_START);
 
         pnlQLHVBottom.setBackground(new java.awt.Color(34, 40, 44));
+        pnlQLHVBottom.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout pnlQLHVBottomLayout = new javax.swing.GroupLayout(pnlQLHVBottom);
-        pnlQLHVBottom.setLayout(pnlQLHVBottomLayout);
-        pnlQLHVBottomLayout.setHorizontalGroup(
-            pnlQLHVBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 903, Short.MAX_VALUE)
+        pnlTabs.setBackground(new java.awt.Color(34, 40, 44));
+
+        jPanel1.setBackground(new java.awt.Color(34, 40, 44));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setBackground(new java.awt.Color(34, 40, 44));
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnXoaHV.setText("Xóa khỏi khóa học");
+        jPanel3.add(btnXoaHV);
+
+        btnSuaDiem.setText("Cập nhật điểm");
+        jPanel3.add(btnSuaDiem);
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
+
+        tblHocVien.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "TT", "MÃ HV", "MÃ NH", "HỌ TÊN", "ĐIÊM"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblHocVien);
+
+        jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        pnlTabs.addTab("HỌC VIÊN", jPanel1);
+
+        jPanel2.setBackground(new java.awt.Color(34, 40, 44));
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jPanel4.setBackground(new java.awt.Color(34, 40, 44));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TÌM KIẾM", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        jPanel4.setPreferredSize(new java.awt.Dimension(898, 75));
+
+        btnTimKiem.setText("Tìm");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
+                .addGap(39, 39, 39)
+                .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
-        pnlQLHVBottomLayout.setVerticalGroup(
-            pnlQLHVBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 474, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTimKiem)
+                    .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
+
+        jPanel5.setBackground(new java.awt.Color(34, 40, 44));
+        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+
+        btnThemVaoKH.setText("Thêm vào khóa học");
+        jPanel5.add(btnThemVaoKH);
+
+        jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_END);
+
+        tblNguoiHoc.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "MÃ NH", "HỌ VÀ TÊN", "GIỚI TÍNH", "NGÀY SINH", "ĐIỆN THOẠI", "EMAIL"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblNguoiHoc);
+
+        jPanel2.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        pnlTabs.addTab("NGƯỜI HỌC", jPanel2);
+
+        pnlQLHVBottom.add(pnlTabs, java.awt.BorderLayout.CENTER);
 
         pnlCardQlHocVien.add(pnlQLHVBottom, java.awt.BorderLayout.CENTER);
 
@@ -135,25 +242,40 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
+            .addGap(0, 571, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, 0)
-                    .addComponent(pnlCardQlHocVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlCardQlHocVien, javax.swing.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
                     .addGap(0, 0, 0)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSuaDiem;
+    private javax.swing.JButton btnThemVaoKH;
+    private javax.swing.JButton btnTimKiem;
+    private javax.swing.JButton btnXoaHV;
     private javax.swing.JComboBox<String> cbbChuyenDe_QLHV;
     private javax.swing.JComboBox<String> cbbKhoaHoc;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblQLHocVienTitle;
     private javax.swing.JPanel pnlCD;
     private javax.swing.JPanel pnlCardQlHocVien;
     private javax.swing.JPanel pnlKH;
     private javax.swing.JPanel pnlQLHVBottom;
     private javax.swing.JPanel pnlQLHVTop;
+    private javax.swing.JTabbedPane pnlTabs;
+    private javax.swing.JTable tblHocVien;
+    private javax.swing.JTable tblNguoiHoc;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

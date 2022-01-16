@@ -242,6 +242,11 @@ public class EduSysJframe extends javax.swing.JFrame {
         btnGioiThieu.setText("Giới Thiệu");
         btnGioiThieu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnGioiThieu.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnGioiThieu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGioiThieuActionPerformed(evt);
+            }
+        });
         pnlButton.add(btnGioiThieu);
 
         btnHuongDan.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -345,12 +350,18 @@ public class EduSysJframe extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQLHocVienActionPerformed
 
     private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
-        // TODO add your handling code here:
+        //Mở JDialog đổi mật khẩu
+        new DoiMatKhauJDialog(this, true).setVisible(true);
     }//GEN-LAST:event_btnDoiMatKhauActionPerformed
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
         openDangNhapJDialog();
     }//GEN-LAST:event_btnDangXuatActionPerformed
+
+    private void btnGioiThieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGioiThieuActionPerformed
+        //Mở JDialog Giới thiệu
+        new GioiThieuJDialog(this, true).setVisible(true);
+    }//GEN-LAST:event_btnGioiThieuActionPerformed
 
     /**
      * @param args the command line arguments
