@@ -41,8 +41,8 @@
         </Property>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-            <LineBorder>
-              <Color PropertyName="color" blue="33" green="99" red="ff" type="rgb"/>
+            <LineBorder thickness="4">
+              <Color PropertyName="color" blue="0" green="0" red="ff" type="rgb"/>
             </LineBorder>
           </Border>
         </Property>
@@ -124,7 +124,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="txtTenDangNhap" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="lblTenDangNhap" alignment="0" pref="244" max="32767" attributes="0"/>
+                                  <Component id="lblTenDangNhap" alignment="0" pref="241" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -172,7 +172,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="txtMatKhauHienTai" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="lblMatKhauHienTai" alignment="1" pref="244" max="32767" attributes="0"/>
+                                  <Component id="lblMatKhauHienTai" alignment="1" pref="241" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -246,7 +246,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="txtMatKhauMoi" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="lblMatKhauMoi" alignment="1" pref="244" max="32767" attributes="0"/>
+                                  <Component id="lblMatKhauMoi" alignment="1" pref="241" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -298,7 +298,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblXacNhanMatKhauMoi" alignment="0" pref="244" max="32767" attributes="0"/>
+                                  <Component id="lblXacNhanMatKhauMoi" alignment="0" pref="241" max="32767" attributes="0"/>
                                   <Component id="txtXacNhanMatKhauMoi" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
@@ -358,7 +358,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="242" max="32767" attributes="0"/>
+                      <EmptySpace pref="236" max="32767" attributes="0"/>
                       <Component id="btnDongY" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="btnHuyBo" min="-2" max="-2" attributes="0"/>

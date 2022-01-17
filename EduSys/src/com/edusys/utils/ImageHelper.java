@@ -13,9 +13,9 @@ import javax.swing.ImageIcon;
  *
  * @author XUÂN THÀNH
  */
-public class XImage {
+public class ImageHelper {
     public static Image getAppIcon(){
-        URL url = XImage.class.getResource("/com/edusys/icons/logo-fpt16.png");
+        URL url = ImageHelper.class.getResource("/com/edusys/icons/logo-fpt16.png");
         return new ImageIcon(url).getImage();
     }
 }

@@ -1,4 +1,4 @@
-CREATE DATABASE EduSys
+﻿CREATE DATABASE EduSys
 GO
 USE EduSys
 GO
@@ -52,7 +52,77 @@ CREATE TABLE HOCVIEN
 	 MaNH NCHAR(7) NOT NULL FOREIGN KEY REFERENCES NGUOIHOC(MaNH),
 	 Diem FLOAT NOT NULL
 )
-
+GO
 ALTER TABLE [dbo].HOCVIEN  WITH CHECK ADD  CONSTRAINT [FK_HocVien_NguoiHoc] FOREIGN KEY([MaNH])
 REFERENCES [dbo].NGUOIHOC ([MaNH])
 ON DELETE CASCADE
+
+--tạo thủ tục lưu bảng điểm
+GO
+CREATE PROC [dbo].[sp_BangDiem](@MaKH INT)
+AS BEGIN
+	SELECT
+		nh.MaNH,
+		nh.HoTen,
+		hv.Diem
+	FROM HOCVIEN hv
+		JOIN NGUOIHOC nh ON nh.MaNH=hv.MaNH
+	WHERE hv.MaKH = @MaKH
+	ORDER BY hv.Diem DESC
+END
+GO
+--tạo thủ tục lưu thống kê điểm
+CREATE PROC [dbo].[sp_ThongKeDiem]
+AS BEGIN
+	SELECT
+		TenCD ChuyenDe,
+		COUNT(MaHV) SoHV,
+		MIN(Diem) ThapNhat,
+		MAX(Diem) CaoNhat,
+		AVG(Diem) TrungBinh
+	FROM KhoaHoc kh
+		JOIN HocVien hv ON kh.MaKH=hv.MaKH
+		JOIN ChuyenDe cd ON cd.MaCD=kh.MaCD
+	GROUP BY TenCD
+END
+GO
+--tạo thủ tục lưu thống kê điểm
+CREATE PROC [dbo].[sp_ThongKeDoanhThu](@Year INT)
+AS BEGIN
+	SELECT
+		TenCD ChuyenDe,
+		COUNT(DISTINCT kh.MaKH) SoKH,
+		COUNT(hv.MaHV) SoHV,
+		SUM(kh.HocPhi) DoanhThu,
+		MIN(kh.HocPhi) ThapNhat,
+		MAX(kh.HocPhi) CaoNhat,
+		AVG(kh.HocPhi) TrungBinh
+	FROM KHOAHOC kh
+		JOIN HOCVIEN hv ON kh.MaKH=hv.MaKH
+		JOIN CHUYENDE cd ON cd.MaCD=kh.MaCD
+	WHERE YEAR(NgayKG) = @Year
+	GROUP BY TenCD
+END
+GO
+--tạo thủ tục lưu thống kê người học
+CREATE PROC [dbo].[sp_ThongKeNguoiHoc]
+AS BEGIN
+	SELECT
+		YEAR(NgayDK) Nam,
+		COUNT(*) SoLuong,
+		MIN(NgayDK) DauTien,
+		MAX(NgayDK) CuoiCung
+	FROM NGUOIHOC
+	GROUP BY YEAR(NgayDK)
+END
+GO
+
+SELECT * FROM NhanVien
+SELECT * FROM HoCvIEN
+
+--Nhân viên
+INSERT INTO [dbo].[NHANVIEN]([MANV],[MATKHAU],[HoTen],[VaiTro],[SDT]) VALUES (?,?,?,?,?)
+UPDATE NHANVIEN SET MATKHAU = ?, HoTen = ?, VaiTro = ?, SDT = ? WHERE  MANV = ?
+DELETE FROM NHANVIEN WHERE  MANV = ?
+SELECT * FROM NhanVien
+SELECT * FROM NhanVien WHERE  MANV = ? and MATKHAU = ?

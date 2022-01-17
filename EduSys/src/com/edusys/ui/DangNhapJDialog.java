@@ -5,9 +5,13 @@
  */
 package com.edusys.ui;
 
+import com.edusys.entity.NhanVien;
+import com.edusys.utils.JdbcHelper;
+import com.edusys.utils.MessegerHelper;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.ResultSet;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -198,7 +202,41 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_lblExitMouseClicked
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        this.dispose();
+        StringBuilder loi = new StringBuilder();
+        String taiKhoan = txtTaiKhoan.getText();
+        String matKhau = txtMatKhau.getText();
+        if (txtTaiKhoan.getText().isEmpty()){
+            loi.append("Không để trống tài khoản\n");
+        }
+        
+        if (txtMatKhau.getText().isEmpty()){
+            loi.append("Không để trống mật khẩu");
+        }
+        
+        if (loi.length()>0){
+            MessegerHelper.errorMesseger(loi, this);
+            return;
+        }
+        
+        String sql = "SELECT * FROM NhanVien WHERE  MANV = ? and MATKHAU = ?";
+
+        
+        try {
+            ResultSet rs = JdbcHelper.query(sql, taiKhoan, matKhau);
+            if (rs.next()) {
+                this.dispose();
+            } else {
+                loi.append("Sai tài khoản hoặc mật khẩu");
+                MessegerHelper.errorMesseger(loi, this);
+                return;
+            }
+            rs.getStatement().getConnection().close();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     /**

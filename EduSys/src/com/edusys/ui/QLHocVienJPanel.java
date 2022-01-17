@@ -126,6 +126,7 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         pnlQLHVBottom.setLayout(new java.awt.BorderLayout());
 
         pnlTabs.setBackground(new java.awt.Color(34, 40, 44));
+        pnlTabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
         jPanel1.setBackground(new java.awt.Color(34, 40, 44));
         jPanel1.setLayout(new java.awt.BorderLayout());
