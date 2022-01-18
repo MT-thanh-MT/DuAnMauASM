@@ -5,7 +5,13 @@
  */
 package com.edusys.ui;
 
-import javax.swing.JOptionPane;
+import com.edusys.Interface.NhanVienDAOInterface;
+import com.edusys.dao.NhanVienDao;
+import com.edusys.entity.NhanVien;
+import com.edusys.utils.Auth;
+import com.edusys.utils.MessegerHelper;
+import java.awt.event.KeyEvent;
+
 
 /**
  *
@@ -13,14 +19,16 @@ import javax.swing.JOptionPane;
  */
 public class DoiMatKhauJDialog extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DoiMatKhauJDialog
-     */
+    private NhanVienDAOInterface dao;
+
     public DoiMatKhauJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
-        this.setLocationRelativeTo(null);
+        if (Auth.isLogin()){
+            this.txtTenDangNhap.setText(String.valueOf(Auth.nguoiDungHienTai.getMaNV()));
+        }
+        init();
     }
 
     /**
@@ -76,6 +84,12 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
 
         jPanel8.setBackground(new java.awt.Color(34, 40, 44));
 
+        txtTenDangNhap.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTenDangNhapKeyPressed(evt);
+            }
+        });
+
         lblTenDangNhap.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         lblTenDangNhap.setForeground(new java.awt.Color(255, 255, 255));
         lblTenDangNhap.setText("Tên đăng nhập");
@@ -110,9 +124,9 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         lblMatKhauHienTai.setText("Mật khẩu hiện tại");
 
         txtMatKhauHienTai.setPreferredSize(new java.awt.Dimension(7, 30));
-        txtMatKhauHienTai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMatKhauHienTaiActionPerformed(evt);
+        txtMatKhauHienTai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMatKhauHienTaiKeyPressed(evt);
             }
         });
 
@@ -151,6 +165,11 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         lblMatKhauMoi.setText("Mật khẩu mới");
 
         txtMatKhauMoi.setPreferredSize(new java.awt.Dimension(7, 30));
+        txtMatKhauMoi.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMatKhauMoiKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -182,6 +201,11 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         lblXacNhanMatKhauMoi.setText("Xác nhận mật khẩu mới");
 
         txtXacNhanMatKhauMoi.setPreferredSize(new java.awt.Dimension(7, 30));
+        txtXacNhanMatKhauMoi.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtXacNhanMatKhauMoiKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -215,6 +239,16 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         btnDongY.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnDongY.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/checkmark32.png"))); // NOI18N
         btnDongY.setText("Đồng ý");
+        btnDongY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDongYActionPerformed(evt);
+            }
+        });
+        btnDongY.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnDongYKeyPressed(evt);
+            }
+        });
 
         btnHuyBo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnHuyBo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/cancel32.png"))); // NOI18N
@@ -262,16 +296,84 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtMatKhauHienTaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauHienTaiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMatKhauHienTaiActionPerformed
-
     private void btnHuyBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoActionPerformed
-        int c = JOptionPane.showConfirmDialog(this, "Bạn có muốn hủy bỏ thay đổi không?");
-        if (c == JOptionPane.YES_OPTION){
+        if (MessegerHelper.confirm(this, "Bạn có muốn hủy bỏ thay đổi không?")) {
             this.dispose();
         }
     }//GEN-LAST:event_btnHuyBoActionPerformed
+
+    private void btnDongYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDongYActionPerformed
+        String manv = txtTenDangNhap.getText();
+        String matKhau = new String(txtMatKhauHienTai.getPassword());
+        String matKhauMoi = new String(txtMatKhauMoi.getPassword());
+        String matKhauMoi2 = new String(txtXacNhanMatKhauMoi.getPassword());
+        StringBuilder loi = new StringBuilder();
+        //check rỗng
+        if (manv.isEmpty()) {
+            loi.append("không để trống tên đăng nhập\n");
+        }
+        if (matKhau.isEmpty()) {
+            loi.append("Không để trống mật khẩu\n");
+        }
+        if (matKhauMoi.isEmpty()) {
+            loi.append("Không để trống mật khẩu mới\n");
+        }
+        if (matKhauMoi2.isEmpty()) {
+            loi.append("Không để trống mật khẩu xác nhận\n");
+        }
+
+        if (loi.length() > 0) {
+            MessegerHelper.errorMesseger(loi, this);
+            return;
+        }
+
+        //check tài khoản mật khẩu
+        if (!manv.equals(Auth.nguoiDungHienTai.getMaNV())) {
+            loi.append("Sai tên đăng nhập\n");
+        } else if (!matKhau.equals(Auth.nguoiDungHienTai.getMatKhau())) {
+            loi.append("sai mật khẩu\n");
+        } else if (!matKhauMoi.equals(matKhauMoi2)) {
+            loi.append("Xác nhận mật khẩu không đúng\n");
+        }
+
+        if (loi.length() > 0) {
+            MessegerHelper.errorMesseger(loi, this);
+            return;
+        }
+        Auth.nguoiDungHienTai.setMatKhau(matKhauMoi);
+        try {
+            if (dao.update(Auth.nguoiDungHienTai)) {
+                MessegerHelper.alert("Đổi mật khẩu thành công!\nXin mời bạn đăng nhập lại", this);
+                this.dispose();
+                new DangNhapJDialog(null, true).setVisible(true);
+            }
+        } catch (Exception ex) {
+            loi.append(ex.getMessage());
+            MessegerHelper.errorMesseger(loi, this);
+            return;
+        }
+
+    }//GEN-LAST:event_btnDongYActionPerformed
+
+    private void txtTenDangNhapKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenDangNhapKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_txtTenDangNhapKeyPressed
+
+    private void txtMatKhauHienTaiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauHienTaiKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_txtMatKhauHienTaiKeyPressed
+
+    private void txtMatKhauMoiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauMoiKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_txtMatKhauMoiKeyPressed
+
+    private void txtXacNhanMatKhauMoiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtXacNhanMatKhauMoiKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_txtXacNhanMatKhauMoiKeyPressed
+
+    private void btnDongYKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDongYKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_btnDongYKeyPressed
 
     /**
      * @param args the command line arguments
@@ -337,4 +439,18 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
     private javax.swing.JTextField txtTenDangNhap;
     private javax.swing.JPasswordField txtXacNhanMatKhauMoi;
     // End of variables declaration//GEN-END:variables
+
+    private void init() {
+        //đưa cửa sổ ra giữa màn hình
+        this.setLocationRelativeTo(null);
+
+        this.dao = new NhanVienDao();
+        
+    }
+
+    private void EnterAcctions(KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnDongY.doClick();
+        }
+    }
 }

@@ -5,13 +5,23 @@
  */
 package com.edusys.ui;
 
+import com.edusys.Interface.NhanVienDAOInterface;
+import com.edusys.dao.NhanVienDao;
 import com.edusys.entity.NhanVien;
+import com.edusys.utils.Auth;
 import com.edusys.utils.JdbcHelper;
 import com.edusys.utils.MessegerHelper;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -20,10 +30,13 @@ import javax.swing.JOptionPane;
  * @author XUÂN THÀNH
  */
 public class DangNhapJDialog extends javax.swing.JDialog {
-
-    /**
-     * Creates new form DangNhapJDialog
-     */
+    
+    private String rememberUser = "";
+    private String rememberPass = "";
+    private NhanVien rememberNV;
+    private String path = "ListAccount.dat";
+    private NhanVienDAOInterface dao;
+    
     public DangNhapJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -51,7 +64,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         lblMatKhau = new javax.swing.JLabel();
         txtMatKhau = new javax.swing.JPasswordField();
         pnlOtherChoice = new javax.swing.JPanel();
-        cbbGhiNhoTK = new javax.swing.JCheckBox();
+        chkGhiNhoTK = new javax.swing.JCheckBox();
         lblQuenMK = new javax.swing.JLabel();
         pnlDangNhapButton = new javax.swing.JPanel();
         btnDangNhap = new javax.swing.JButton();
@@ -97,6 +110,12 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         pnlTaiKhoan.setBackground(new java.awt.Color(153, 153, 153));
         pnlTaiKhoan.setPreferredSize(new java.awt.Dimension(300, 50));
         pnlTaiKhoan.setLayout(new java.awt.BorderLayout(4, 4));
+
+        txtTaiKhoan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTaiKhoanKeyPressed(evt);
+            }
+        });
         pnlTaiKhoan.add(txtTaiKhoan, java.awt.BorderLayout.CENTER);
 
         lblTaiKhoan.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -112,6 +131,12 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         lblMatKhau.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lblMatKhau.setText("Mật Khẩu:");
         pnlMatKhau.add(lblMatKhau, java.awt.BorderLayout.PAGE_START);
+
+        txtMatKhau.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMatKhauKeyPressed(evt);
+            }
+        });
         pnlMatKhau.add(txtMatKhau, java.awt.BorderLayout.CENTER);
 
         pnlContainer.add(pnlMatKhau);
@@ -120,11 +145,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         pnlOtherChoice.setPreferredSize(new java.awt.Dimension(300, 20));
         pnlOtherChoice.setLayout(new java.awt.BorderLayout());
 
-        cbbGhiNhoTK.setBackground(new java.awt.Color(153, 153, 153));
-        cbbGhiNhoTK.setForeground(new java.awt.Color(204, 0, 0));
-        cbbGhiNhoTK.setText("Ghi nhớ tài khoản?");
-        cbbGhiNhoTK.setPreferredSize(new java.awt.Dimension(120, 15));
-        pnlOtherChoice.add(cbbGhiNhoTK, java.awt.BorderLayout.WEST);
+        chkGhiNhoTK.setBackground(new java.awt.Color(153, 153, 153));
+        chkGhiNhoTK.setForeground(new java.awt.Color(204, 0, 0));
+        chkGhiNhoTK.setText("Ghi nhớ tài khoản?");
+        chkGhiNhoTK.setPreferredSize(new java.awt.Dimension(120, 15));
+        pnlOtherChoice.add(chkGhiNhoTK, java.awt.BorderLayout.WEST);
 
         lblQuenMK.setBackground(new java.awt.Color(153, 153, 153));
         lblQuenMK.setForeground(new java.awt.Color(204, 0, 0));
@@ -145,6 +170,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDangNhapActionPerformed(evt);
+            }
+        });
+        btnDangNhap.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnDangNhapKeyPressed(evt);
             }
         });
         pnlDangNhapButton.add(btnDangNhap);
@@ -202,9 +232,10 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_lblExitMouseClicked
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        StringBuilder loi = new StringBuilder();
+        StringBuilder loi = new StringBuilder();//tạo biến chứa lỗi
         String taiKhoan = txtTaiKhoan.getText();
         String matKhau = txtMatKhau.getText();
+        //check rỗng 
         if (txtTaiKhoan.getText().isEmpty()){
             loi.append("Không để trống tài khoản\n");
         }
@@ -217,27 +248,57 @@ public class DangNhapJDialog extends javax.swing.JDialog {
             MessegerHelper.errorMesseger(loi, this);
             return;
         }
-        
-        String sql = "SELECT * FROM NhanVien WHERE  MANV = ? and MATKHAU = ?";
-
-        
+        //check tài khoản
         try {
-            ResultSet rs = JdbcHelper.query(sql, taiKhoan, matKhau);
-            if (rs.next()) {
-                this.dispose();
-            } else {
-                loi.append("Sai tài khoản hoặc mật khẩu");
+            Auth.nguoiDungHienTai = (NhanVien) dao.selectByID(taiKhoan);
+            if (Auth.nguoiDungHienTai == null) {
+                loi.append("Sai tài khoản");
+                MessegerHelper.errorMesseger(loi, this);
+                return;
+            } else if (!matKhau.equals(Auth.nguoiDungHienTai.getMatKhau())) {
+                loi.append("Sai mật khẩu");
                 MessegerHelper.errorMesseger(loi, this);
                 return;
             }
-            rs.getStatement().getConnection().close();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+            this.dispose();
+        } catch (Exception ex) {
+            loi.append(ex.getMessage());
+            MessegerHelper.errorMesseger(loi, this);
+            return;
         }
-
+        
+         // lưu lại thông tin của người dùng nếu chọn "remember me?"
+        if (chkGhiNhoTK.isSelected() == true) {
+            this.rememberUser = taiKhoan;
+            this.rememberPass = matKhau;
+        } else {
+            this.rememberPass = "";
+            this.rememberUser = "";
+        }
+        this.rememberNV.setMaNV(rememberUser);
+        this.rememberNV.setMatKhau(rememberPass);
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path));
+            oos.writeObject(rememberNV);
+            oos.flush();
+            oos.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
         
     }//GEN-LAST:event_btnDangNhapActionPerformed
+
+    private void txtTaiKhoanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTaiKhoanKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_txtTaiKhoanKeyPressed
+
+    private void txtMatKhauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_txtMatKhauKeyPressed
+
+    private void btnDangNhapKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDangNhapKeyPressed
+        EnterAcctions(evt);
+    }//GEN-LAST:event_btnDangNhapKeyPressed
 
     /**
      * @param args the command line arguments
@@ -283,7 +344,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
-    private javax.swing.JCheckBox cbbGhiNhoTK;
+    private javax.swing.JCheckBox chkGhiNhoTK;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblExit;
@@ -338,6 +399,33 @@ public class DangNhapJDialog extends javax.swing.JDialog {
                 }
             });
         }
+        
+        this.dao = new NhanVienDao();
+//        Auth.nguoiDungHienTai = new NhanVien();
+        this.rememberNV = new NhanVien();
+        //lấy ra tên tài khoản và mật khẩu đã được remember
+        
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+            this.rememberNV = (NhanVien) ois.readObject();
+            this.rememberUser = this.rememberNV.getMaNV();
+            this.rememberPass = this.rememberNV.getMatKhau();
+            ois.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        //gán tài khoản mật khẩu cho trường txtTaiKhoan & txtMatKhau
+        this.txtTaiKhoan.setText(this.rememberUser);
+        this.txtMatKhau.setText(this.rememberPass);
+        //tích chọn cho chkGhiNhoTK
+        this.chkGhiNhoTK.setSelected(rememberUser.isEmpty() ? false : true);
 
+    }
+    
+    private void EnterAcctions(KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btnDangNhap.doClick();
+        }
     }
 }

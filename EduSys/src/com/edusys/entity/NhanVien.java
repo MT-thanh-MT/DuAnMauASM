@@ -5,11 +5,13 @@
  */
 package com.edusys.entity;
 
+import java.io.Serializable;
+
 /**
  *
  * @author XUÂN THÀNH
  */
-public class NhanVien {
+public class NhanVien implements Serializable{
     private String maNV;
     private String matKhau;
     private String hoTen;

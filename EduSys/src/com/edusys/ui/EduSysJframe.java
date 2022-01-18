@@ -5,6 +5,8 @@
  */
 package com.edusys.ui;
 
+import com.edusys.Language.LanguageSelected;
+import com.edusys.Language.MainFormLanguage;
 import com.edusys.utils.ImageHelper;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -17,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -36,6 +39,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     private QLNguoiHocJPanel QLNHJPanel;
     private QLNhanVienJPanel QLNVJPanel;
     private ThongKeJPanel thongKeJPanel;
+    private MainFormLanguage MainLg;
 
     public EduSysJframe() {
         initComponents();
@@ -109,6 +113,10 @@ public class EduSysJframe extends javax.swing.JFrame {
         mniHuongDan = new javax.swing.JMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
         mniGioiThieu = new javax.swing.JMenuItem();
+        mnuNgonNgu = new javax.swing.JMenu();
+        mniTiengViet = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        mniEnglish = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("HÊ THỐNG QUẢN LÝ EDUSYS");
@@ -116,16 +124,17 @@ public class EduSysJframe extends javax.swing.JFrame {
         pnlRoot.setLayout(new java.awt.BorderLayout());
 
         pnlSide.setBackground(new java.awt.Color(21, 25, 28));
-        pnlSide.setPreferredSize(new java.awt.Dimension(140, 0));
+        pnlSide.setPreferredSize(new java.awt.Dimension(190, 0));
 
         pnlHome.setBackground(new java.awt.Color(21, 25, 28));
-        pnlHome.setPreferredSize(new java.awt.Dimension(140, 150));
+        pnlHome.setPreferredSize(new java.awt.Dimension(180, 150));
         pnlHome.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 40));
 
         btnHome.setBackground(new java.awt.Color(34, 40, 44));
         btnHome.setForeground(new java.awt.Color(255, 255, 255));
         btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/home32.png"))); // NOI18N
-        btnHome.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnHome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnHome.setPreferredSize(new java.awt.Dimension(160, 50));
         btnHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHomeActionPerformed(evt);
@@ -138,7 +147,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         btnQLNhanVien.setBackground(new java.awt.Color(34, 40, 44));
         btnQLNhanVien.setForeground(new java.awt.Color(255, 255, 255));
         btnQLNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/Staff32.png"))); // NOI18N
-        btnQLNhanVien.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnQLNhanVien.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnQLNhanVien.setPreferredSize(new java.awt.Dimension(160, 50));
         btnQLNhanVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnQLNhanVienActionPerformed(evt);
@@ -149,7 +159,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         btnQLChuyenDe.setBackground(new java.awt.Color(34, 40, 44));
         btnQLChuyenDe.setForeground(new java.awt.Color(255, 255, 255));
         btnQLChuyenDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/doc_lines32.png"))); // NOI18N
-        btnQLChuyenDe.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnQLChuyenDe.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnQLChuyenDe.setPreferredSize(new java.awt.Dimension(160, 50));
         btnQLChuyenDe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnQLChuyenDeActionPerformed(evt);
@@ -160,7 +171,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         btnQLNguoiHoc.setBackground(new java.awt.Color(34, 40, 44));
         btnQLNguoiHoc.setForeground(new java.awt.Color(255, 255, 255));
         btnQLNguoiHoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/3people32.png"))); // NOI18N
-        btnQLNguoiHoc.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnQLNguoiHoc.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnQLNguoiHoc.setPreferredSize(new java.awt.Dimension(160, 50));
         btnQLNguoiHoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnQLNguoiHocActionPerformed(evt);
@@ -171,7 +183,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         btnQLKhoaHoc.setBackground(new java.awt.Color(34, 40, 44));
         btnQLKhoaHoc.setForeground(new java.awt.Color(255, 255, 255));
         btnQLKhoaHoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/QLKH32.png"))); // NOI18N
-        btnQLKhoaHoc.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnQLKhoaHoc.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnQLKhoaHoc.setPreferredSize(new java.awt.Dimension(160, 50));
         btnQLKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnQLKhoaHocActionPerformed(evt);
@@ -182,7 +195,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         btnQLHocVien.setBackground(new java.awt.Color(34, 40, 44));
         btnQLHocVien.setForeground(new java.awt.Color(255, 255, 255));
         btnQLHocVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/3Student32.png"))); // NOI18N
-        btnQLHocVien.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnQLHocVien.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnQLHocVien.setPreferredSize(new java.awt.Dimension(160, 50));
         btnQLHocVien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnQLHocVienActionPerformed(evt);
@@ -193,7 +207,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         btnThongKe.setBackground(new java.awt.Color(34, 40, 44));
         btnThongKe.setForeground(new java.awt.Color(255, 255, 255));
         btnThongKe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/chart_bar32.png"))); // NOI18N
-        btnThongKe.setPreferredSize(new java.awt.Dimension(120, 50));
+        btnThongKe.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnThongKe.setPreferredSize(new java.awt.Dimension(160, 50));
         btnThongKe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThongKeActionPerformed(evt);
@@ -224,7 +239,7 @@ public class EduSysJframe extends javax.swing.JFrame {
             pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
                 .addComponent(lblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 654, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
                 .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlBottomLayout.setVerticalGroup(
@@ -308,7 +323,7 @@ public class EduSysJframe extends javax.swing.JFrame {
         pnlCardHomeLayout.setHorizontalGroup(
             pnlCardHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnlButton, javax.swing.GroupLayout.DEFAULT_SIZE, 911, Short.MAX_VALUE)
+            .addComponent(pnlButton, javax.swing.GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE)
             .addComponent(lblHomeTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnlCardHomeLayout.setVerticalGroup(
@@ -496,6 +511,27 @@ public class EduSysJframe extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuTroGiup);
 
+        mnuNgonNgu.setText("Ngôn ngữ");
+
+        mniTiengViet.setText("Tiếng việt");
+        mniTiengViet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniTiengVietActionPerformed(evt);
+            }
+        });
+        mnuNgonNgu.add(mniTiengViet);
+        mnuNgonNgu.add(jSeparator1);
+
+        mniEnglish.setText("English");
+        mniEnglish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniEnglishActionPerformed(evt);
+            }
+        });
+        mnuNgonNgu.add(mniEnglish);
+
+        jMenuBar1.add(mnuNgonNgu);
+
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -612,6 +648,18 @@ public class EduSysJframe extends javax.swing.JFrame {
         this.thongKeJPanel.showDoanhThu();
     }//GEN-LAST:event_mniDoanhThuActionPerformed
 
+    private void mniTiengVietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTiengVietActionPerformed
+        LanguageSelected.getSelected = 0;
+        this.MainLg.changeLanguage(0);
+        this.QLNVJPanel.QLNVchangeLanguge();
+    }//GEN-LAST:event_mniTiengVietActionPerformed
+
+    private void mniEnglishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEnglishActionPerformed
+        LanguageSelected.getSelected = 1;
+        this.MainLg.changeLanguage(1);
+        this.QLNVJPanel.QLNVchangeLanguge();
+    }//GEN-LAST:event_mniEnglishActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -660,6 +708,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     private javax.swing.JButton btnQLNhanVien;
     private javax.swing.JButton btnThongKe;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
     private javax.swing.JPopupMenu.Separator jSeparator13;
@@ -680,6 +729,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniDiemCD;
     private javax.swing.JMenuItem mniDoanhThu;
     private javax.swing.JMenuItem mniDoiMatKhau;
+    private javax.swing.JMenuItem mniEnglish;
     private javax.swing.JMenuItem mniGioiThieu;
     private javax.swing.JMenuItem mniHocVien;
     private javax.swing.JMenuItem mniHuongDan;
@@ -688,7 +738,9 @@ public class EduSysJframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniNguoiHoc;
     private javax.swing.JMenuItem mniNhanVien;
     private javax.swing.JMenuItem mniThoat;
+    private javax.swing.JMenuItem mniTiengViet;
     private javax.swing.JMenu mnuHeThong;
+    private javax.swing.JMenu mnuNgonNgu;
     private javax.swing.JMenu mnuQuanLy;
     private javax.swing.JMenu mnuThongKe;
     private javax.swing.JMenu mnuTroGiup;
@@ -714,7 +766,7 @@ public class EduSysJframe extends javax.swing.JFrame {
 
         //set icon cho app
         this.setIconImage(ImageHelper.getAppIcon());
- 
+
         mouseHover();
         //khai báo các cửa sổ và panel
         this.gioiThieuJDialog = new GioiThieuJDialog(this, true);
@@ -727,10 +779,12 @@ public class EduSysJframe extends javax.swing.JFrame {
         this.QLNHJPanel = new QLNguoiHocJPanel();
         this.QLNVJPanel = new QLNhanVienJPanel();
         this.thongKeJPanel = new ThongKeJPanel();
+        //khai báo lớp hỗ trọ language
+        this.MainLg = new MainFormLanguage(btnDangXuat, btnDoiMatKhau, btnGioiThieu, btnHome, btnHuongDan, btnQLChuyenDe, btnQLHocVien, btnQLKhoaHoc, btnQLNguoiHoc, btnQLNhanVien, btnThongKe, lblHomeTitle, lblInfo, mniBangDiem, mniChuyenDe, mniDangXuat, mniDiemCD, mniDoanhThu, mniDoiMatKhau, mniGioiThieu, mniHocVien, mniHuongDan, mniKhoaHoc, mniLuongNguoihoc, mniNguoiHoc, mniNhanVien, mniThoat, mnuHeThong, mnuQuanLy, mnuThongKe, mnuTroGiup, mniTiengViet, mnuNgonNgu, mniEnglish);
 
         //mở cửa sổ chào
-         this.chaoJDialog.setVisible(true);
-         openDangNhapJDialog();
+        this.chaoJDialog.setVisible(true);
+        openDangNhapJDialog();
         //Hiển thị đồng hồ
         new Timer(1000, new ActionListener() {
             @Override
@@ -761,6 +815,21 @@ public class EduSysJframe extends javax.swing.JFrame {
         //Hiệu ứng di chuột vào các button menu
         JButton[] btns = {btnHome, btnQLNhanVien, btnQLChuyenDe, btnQLNguoiHoc, btnQLKhoaHoc, btnQLHocVien, btnThongKe};
         for (JButton btn : btns) {
+            if (btn == btnHome) {
+                btn.setText("Trang chủ");
+            } else if (btn == btnQLChuyenDe) {
+                btn.setText("Quản lý chuyên đề");
+            } else if (btn == btnQLHocVien) {
+                btn.setText("Quản lý học viên");
+            } else if (btn == btnQLKhoaHoc) {
+                btn.setText("Quản lý khóa học");
+            } else if (btn == btnQLNguoiHoc) {
+                btn.setText("Quản lý người học");
+            } else if (btn == btnQLNhanVien) {
+                btn.setText("Quản lý nhân viên");
+            } else if (btn == btnThongKe) {
+                btn.setText("Thống Kê");
+            }
             btn.setBackground(new Color(21, 25, 28));
             btn.setUI(new BasicButtonUI());
             btn.addMouseListener(new MouseListener() {
@@ -779,27 +848,13 @@ public class EduSysJframe extends javax.swing.JFrame {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     btn.setBackground(new Color(54, 81, 207));
-                    if (btn == btnHome) {
-                        btn.setText("Home");
-                    } else if (btn == btnQLChuyenDe) {
-                        btn.setText("QL Chuyên Đề");
-                    } else if (btn == btnQLHocVien) {
-                        btn.setText("QL Học Viên");
-                    } else if (btn == btnQLKhoaHoc) {
-                        btn.setText("QL Khóa học");
-                    } else if (btn == btnQLNguoiHoc) {
-                        btn.setText("QL Người Học");
-                    } else if (btn == btnQLNhanVien) {
-                        btn.setText("QL Nhân Viên");
-                    } else if (btn == btnThongKe) {
-                        btn.setText("Thống kê");
-                    }
+                    btn.setHorizontalAlignment(SwingConstants.CENTER);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     btn.setBackground(new Color(21, 25, 28));
-                    btn.setText("");
+                    btn.setHorizontalAlignment(SwingConstants.LEFT);
                 }
             });
         }

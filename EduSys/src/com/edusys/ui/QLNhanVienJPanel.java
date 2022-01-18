@@ -5,17 +5,21 @@
  */
 package com.edusys.ui;
 
+import com.edusys.Language.LanguageSelected;
+import com.edusys.Language.QLNVLanguage;
+
 /**
  *
  * @author XUÂN THÀNH
  */
 public class QLNhanVienJPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form QLNhanVienJPanel
-     */
+    private QLNVLanguage QLNVLG;
+    
     public QLNhanVienJPanel() {
         initComponents();
+        
+        init();
     }
 
     /**
@@ -49,7 +53,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         lblQLNVMatKhau2 = new javax.swing.JLabel();
         txtQLNVMatKhau2 = new javax.swing.JPasswordField();
-        jPanel9 = new javax.swing.JPanel();
+        pnlVaiTro = new javax.swing.JPanel();
         rdoQLNVTruongPhong = new javax.swing.JRadioButton();
         rdoQLNVNhanVien = new javax.swing.JRadioButton();
         jPanel10 = new javax.swing.JPanel();
@@ -241,8 +245,8 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
 
         jPanel2.add(jPanel7);
 
-        jPanel9.setBackground(new java.awt.Color(34, 40, 44));
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Vai trò", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        pnlVaiTro.setBackground(new java.awt.Color(34, 40, 44));
+        pnlVaiTro.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Vai trò", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         rdoQLNVTruongPhong.setBackground(new java.awt.Color(34, 40, 44));
         buttonGroup1.add(rdoQLNVTruongPhong);
@@ -255,30 +259,30 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         rdoQLNVNhanVien.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         rdoQLNVNhanVien.setForeground(new java.awt.Color(255, 255, 255));
         rdoQLNVNhanVien.setSelected(true);
-        rdoQLNVNhanVien.setText("Nhân Viên");
+        rdoQLNVNhanVien.setText("Nhân viên");
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlVaiTroLayout = new javax.swing.GroupLayout(pnlVaiTro);
+        pnlVaiTro.setLayout(pnlVaiTroLayout);
+        pnlVaiTroLayout.setHorizontalGroup(
+            pnlVaiTroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVaiTroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rdoQLNVTruongPhong)
                 .addGap(33, 33, 33)
                 .addComponent(rdoQLNVNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(202, Short.MAX_VALUE))
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        pnlVaiTroLayout.setVerticalGroup(
+            pnlVaiTroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVaiTroLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlVaiTroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdoQLNVTruongPhong)
                     .addComponent(rdoQLNVNhanVien))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jPanel2.add(jPanel9);
+        jPanel2.add(pnlVaiTro);
 
         pnlQLNVInput.add(jPanel2);
 
@@ -288,22 +292,22 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
 
         btnQLNVThem.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnQLNVThem.setText("Thêm");
-        btnQLNVThem.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnQLNVThem.setPreferredSize(new java.awt.Dimension(70, 41));
         jPanel12.add(btnQLNVThem);
 
         btnQLNVSua.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnQLNVSua.setText("Sửa");
-        btnQLNVSua.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnQLNVSua.setPreferredSize(new java.awt.Dimension(70, 41));
         jPanel12.add(btnQLNVSua);
 
         btnQLNVXoa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnQLNVXoa.setText("Xóa");
-        btnQLNVXoa.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnQLNVXoa.setPreferredSize(new java.awt.Dimension(70, 41));
         jPanel12.add(btnQLNVXoa);
 
         btnQLNVMoi.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnQLNVMoi.setText("Mới");
-        btnQLNVMoi.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnQLNVMoi.setPreferredSize(new java.awt.Dimension(70, 41));
         jPanel12.add(btnQLNVMoi);
 
         jPanel10.add(jPanel12);
@@ -420,7 +424,6 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblQLNVHoTen;
     private javax.swing.JLabel lblQLNVMaNV;
@@ -431,6 +434,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel pnlCardQLNhanVien;
     private javax.swing.JPanel pnlQLNV;
     private javax.swing.JPanel pnlQLNVInput;
+    private javax.swing.JPanel pnlVaiTro;
     private javax.swing.JRadioButton rdoQLNVNhanVien;
     private javax.swing.JRadioButton rdoQLNVTruongPhong;
     private javax.swing.JTable tblQLNV;
@@ -440,4 +444,14 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
     private javax.swing.JPasswordField txtQLNVMatKhau2;
     private javax.swing.JTextField txtQLNVSDT;
     // End of variables declaration//GEN-END:variables
+
+    private void init() {
+        //khai báo Quản lý nhân viên language
+        this.QLNVLG = new QLNVLanguage(btnQLNVSua, btnQLNVThem, btnQLNVXoa, btnQLNVMoi, lblQLNVHoTen, lblQLNVMaNV, lblQLNVMatKhau, lblQLNVMatKhau2, lblQLNVSDT, lblQLNhanVienTitle, rdoQLNVNhanVien, rdoQLNVTruongPhong, tblQLNV, pnlVaiTro);
+        
+    }
+    
+    public void QLNVchangeLanguge(){
+        this.QLNVLG.changeLanguage(LanguageSelected.getSelected);
+    }
 }
