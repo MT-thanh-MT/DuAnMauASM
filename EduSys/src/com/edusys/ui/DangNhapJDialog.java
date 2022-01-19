@@ -5,11 +5,10 @@
  */
 package com.edusys.ui;
 
-import com.edusys.Interface.NhanVienDAOInterface;
+import com.edusys.Interface.BaseDAOInterface;
 import com.edusys.dao.NhanVienDao;
 import com.edusys.entity.NhanVien;
 import com.edusys.utils.Auth;
-import com.edusys.utils.JdbcHelper;
 import com.edusys.utils.MessegerHelper;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -19,9 +18,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -35,7 +31,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     private String rememberPass = "";
     private NhanVien rememberNV;
     private String path = "ListAccount.dat";
-    private NhanVienDAOInterface dao;
+    private BaseDAOInterface dao;
     
     public DangNhapJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

@@ -7,6 +7,7 @@ package com.edusys.ui;
 
 import com.edusys.Language.LanguageSelected;
 import com.edusys.Language.MainFormLanguage;
+import com.edusys.utils.Auth;
 import com.edusys.utils.ImageHelper;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -565,7 +566,9 @@ public class EduSysJframe extends javax.swing.JFrame {
 
     private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
         //Mở JDialog đổi mật khẩu
+        this.doiMKJDialog.setTenDNtxt();
         openDoiMKJDialog();
+        
     }//GEN-LAST:event_btnDoiMatKhauActionPerformed
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
@@ -766,7 +769,8 @@ public class EduSysJframe extends javax.swing.JFrame {
 
         //set icon cho app
         this.setIconImage(ImageHelper.getAppIcon());
-
+        
+        //hiệu ứng di chuột vào button mainForm
         mouseHover();
         //khai báo các cửa sổ và panel
         this.gioiThieuJDialog = new GioiThieuJDialog(this, true);
@@ -779,22 +783,14 @@ public class EduSysJframe extends javax.swing.JFrame {
         this.QLNHJPanel = new QLNguoiHocJPanel();
         this.QLNVJPanel = new QLNhanVienJPanel();
         this.thongKeJPanel = new ThongKeJPanel();
-        //khai báo lớp hỗ trọ language
+        //khai báo lớp hỗ trợ language
         this.MainLg = new MainFormLanguage(btnDangXuat, btnDoiMatKhau, btnGioiThieu, btnHome, btnHuongDan, btnQLChuyenDe, btnQLHocVien, btnQLKhoaHoc, btnQLNguoiHoc, btnQLNhanVien, btnThongKe, lblHomeTitle, lblInfo, mniBangDiem, mniChuyenDe, mniDangXuat, mniDiemCD, mniDoanhThu, mniDoiMatKhau, mniGioiThieu, mniHocVien, mniHuongDan, mniKhoaHoc, mniLuongNguoihoc, mniNguoiHoc, mniNhanVien, mniThoat, mnuHeThong, mnuQuanLy, mnuThongKe, mnuTroGiup, mniTiengViet, mnuNgonNgu, mniEnglish);
 
         //mở cửa sổ chào
         this.chaoJDialog.setVisible(true);
         openDangNhapJDialog();
-        //Hiển thị đồng hồ
-        new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Date now = new Date();
-                SimpleDateFormat fm = new SimpleDateFormat("hh:mm:ss a");
-                String txt = fm.format(now);
-                lblTime.setText(txt);
-            }
-        }).start();
+        //hiển thị thời gian
+        startDongHo();
 
         //add panel quản lý chuyên đề
         this.pnlCardQLChuyenDe.add(this.QLCDJPanel).repaint();
@@ -809,6 +805,19 @@ public class EduSysJframe extends javax.swing.JFrame {
         //add panel Thống Kê
         this.pnlThongKe.add(this.thongKeJPanel).repaint();
 
+    }
+
+    private void startDongHo() {
+        //Hiển thị đồng hồ
+        new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date now = new Date();
+                SimpleDateFormat fm = new SimpleDateFormat("hh:mm:ss a");
+                String txt = fm.format(now);
+                lblTime.setText(txt);
+            }
+        }).start();
     }
 
     private void mouseHover() {
@@ -861,6 +870,8 @@ public class EduSysJframe extends javax.swing.JFrame {
     }
 
     private void openDangNhapJDialog() {
+        //Xóa thông tin của phiên đăng nhập hiện tại
+        Auth.clear();
         //mở cửa sổ đăng nhập
         this.dangNhapJDialog.setVisible(true);
 

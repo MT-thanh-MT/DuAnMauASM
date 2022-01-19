@@ -5,7 +5,7 @@
  */
 package com.edusys.ui;
 
-import com.edusys.Interface.NhanVienDAOInterface;
+import com.edusys.Interface.BaseDAOInterface;
 import com.edusys.dao.NhanVienDao;
 import com.edusys.entity.NhanVien;
 import com.edusys.utils.Auth;
@@ -19,15 +19,12 @@ import java.awt.event.KeyEvent;
  */
 public class DoiMatKhauJDialog extends javax.swing.JDialog {
 
-    private NhanVienDAOInterface dao;
+    private BaseDAOInterface dao;
 
     public DoiMatKhauJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
-        if (Auth.isLogin()){
-            this.txtTenDangNhap.setText(String.valueOf(Auth.nguoiDungHienTai.getMaNV()));
-        }
         init();
     }
 
@@ -452,5 +449,11 @@ public class DoiMatKhauJDialog extends javax.swing.JDialog {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btnDongY.doClick();
         }
+    }
+    
+    public void setTenDNtxt(){
+        
+        this.txtTenDangNhap.setText(String.valueOf(Auth.nguoiDungHienTai.getMaNV()));
+        
     }
 }
