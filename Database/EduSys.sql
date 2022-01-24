@@ -8,6 +8,9 @@ CREATE TABLE NHANVIEN
 	MATKHAU NVARCHAR(50) NOT NULL,
 	HoTen NVARCHAR(50) NOT NULL,
 	VaiTro BIT NOT NULL,
+	Email varchar(255) NOT NULL,
+	SLDangNhapSai INT,
+	TrangThai BIT
 )
 GO
 CREATE TABLE CHUYENDE
@@ -121,8 +124,8 @@ SELECT * FROM NhanVien
 SELECT * FROM HoCvIEN
 
 --Nhân viên
-INSERT INTO [dbo].[NHANVIEN]([MANV],[MATKHAU],[HoTen],[VaiTro],[SDT]) VALUES (?,?,?,?,?)
-UPDATE NHANVIEN SET MATKHAU = ?, HoTen = ?, VaiTro = ?, SDT = ? WHERE  MANV = ?
+INSERT INTO NHANVIEN (MANV, MATKHAU, HoTen, Email, VaiTro, TrangThai) VALUES (,,,,,)
+UPDATE NHANVIEN SET MATKHAU =?, HoTen =?, VaiTro =?, Email =?, SLDangNhapSai =?, TrangThai =? WHERE  MANV = ?
 DELETE FROM NHANVIEN WHERE  MANV = ?
 SELECT * FROM NhanVien
 SELECT * FROM NhanVien WHERE  MANV = ? and MATKHAU = ?

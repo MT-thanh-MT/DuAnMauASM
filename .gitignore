@@ -23,3 +23,5 @@
 hs_err_pid*
 /EduSys/nbproject/private/
 /EduSys/build/
+/EduSys/dist/
+/EduSys2/target/
