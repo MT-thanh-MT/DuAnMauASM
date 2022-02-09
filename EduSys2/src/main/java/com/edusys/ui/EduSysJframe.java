@@ -238,8 +238,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         pnlBottomLayout.setHorizontalGroup(
             pnlBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottomLayout.createSequentialGroup()
-                .addComponent(lblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 758, Short.MAX_VALUE)
+                .addComponent(lblInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 559, Short.MAX_VALUE)
                 .addComponent(lblTime, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlBottomLayout.setVerticalGroup(
@@ -654,12 +654,14 @@ public class EduSysJframe extends javax.swing.JFrame {
         LanguageSelected.getSelected = 0;
         this.MainLg.changeLanguage(0);
         this.QLNVJPanel.QLNVchangeLanguge();
+        this.QLCDJPanel.QLNVchangeLanguge();
     }//GEN-LAST:event_mniTiengVietActionPerformed
 
     private void mniEnglishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEnglishActionPerformed
         LanguageSelected.getSelected = 1;
         this.MainLg.changeLanguage(1);
         this.QLNVJPanel.QLNVchangeLanguge();
+        this.QLCDJPanel.QLNVchangeLanguge();
     }//GEN-LAST:event_mniEnglishActionPerformed
 
     /**
@@ -790,6 +792,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         openDangNhapJDialog();
         //hiển thị thời gian
         startDongHo();
+        //hiển thị tên người dùng
+        lblInfo.setText("Xin chào: "+Auth.nguoiDungHienTai.getHoTen());
 
         //add panel quản lý chuyên đề
         this.pnlCardQLChuyenDe.add(this.QLCDJPanel).repaint();
@@ -905,6 +909,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     }
 
     private void openQLNguoiHoc() {
+        
         CardLayout layout = (CardLayout) pnlCards.getLayout();
 
         layout.show(pnlCards, "QLNguoiHoc");

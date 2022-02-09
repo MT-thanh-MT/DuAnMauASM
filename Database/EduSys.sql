@@ -129,3 +129,23 @@ UPDATE NHANVIEN SET MATKHAU =?, HoTen =?, VaiTro =?, Email =?, SLDangNhapSai =?,
 DELETE FROM NHANVIEN WHERE  MANV = ?
 SELECT * FROM NhanVien
 SELECT * FROM NhanVien WHERE  MANV = ? and MATKHAU = ?
+
+--Chuyên đề
+INSERT INTO CHUYENDE(MaCD, TenCD, HocPhi, ThoiLuong, Hinh, MoTa) VALUES (?,?,?,?,?,?)
+UPDATE CHUYENDE SET TenCD = ?, HocPhi = ?, ThoiLuong = ?, Hinh = ?, MoTa =? WHERE  MaCD = ?
+DELETE FROM CHUYENDE WHERE  MaCD = ?
+SELECT * FROM CHUYENDE WHERE  MaCD = ?
+
+--Người học
+SELECT * FROM NGUOIHOC
+INSERT INTO NGUOIHOC (MaNH, HoTen, NgaySinh, GioiTinh, DienThoai, Email, GhiChu, MaNV, NgayDK) VALUES (?,?,?,?,?,?,?,?,?)
+UPDATE NGUOIHOC SET HoTen = ?, NgaySinh = ?, GioiTinh = ?, DienThoai = ?, Email = ?, GhiChu =, MaNV = ?, NgayDK = ?WHERE MaNH = ?
+DELETE FROM NGUOIHOC WHERE MaNH = ?
+
+SELECT * FROM NGUOIHOC WHERE  HoTen like ?
+
+--Khóa học
+SELECT * FROM KHOAHOC WHERE MaCD = N'C1'
+INSERT INTO KHOAHOC (MaKH, MaCD, HocPhi, ThoiLuong, NgayKG, GhiChu, MaNV, NgayTao) VALUES (?,?,?,?,?,?,?,?)
+UPDATE KHOAHOC SET MaCD = ?, HocPhi = ?, ThoiLuong = ?, NgayKG = ?, GhiChu = ?, MaNV = ?, NgayTao = ? WHERE MaKH = ?
+DELETE FROM KHOAHOC WHERE MaKH = ?

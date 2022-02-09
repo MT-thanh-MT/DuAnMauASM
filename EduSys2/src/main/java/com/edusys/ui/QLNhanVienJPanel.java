@@ -272,6 +272,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
 
         pnlVaiTro.setBackground(new java.awt.Color(34, 40, 44));
         pnlVaiTro.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Vai trò", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        pnlVaiTro.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 10));
 
         rdoQLNVTruongPhong.setBackground(new java.awt.Color(34, 40, 44));
         buttonGroup1.add(rdoQLNVTruongPhong);
@@ -279,45 +280,28 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         rdoQLNVTruongPhong.setForeground(new java.awt.Color(255, 255, 255));
         rdoQLNVTruongPhong.setSelected(true);
         rdoQLNVTruongPhong.setText("Trưởng phòng");
+        pnlVaiTro.add(rdoQLNVTruongPhong);
 
         rdoQLNVNhanVien.setBackground(new java.awt.Color(34, 40, 44));
         buttonGroup1.add(rdoQLNVNhanVien);
         rdoQLNVNhanVien.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         rdoQLNVNhanVien.setForeground(new java.awt.Color(255, 255, 255));
         rdoQLNVNhanVien.setText("Nhân viên");
-
-        javax.swing.GroupLayout pnlVaiTroLayout = new javax.swing.GroupLayout(pnlVaiTro);
-        pnlVaiTro.setLayout(pnlVaiTroLayout);
-        pnlVaiTroLayout.setHorizontalGroup(
-            pnlVaiTroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVaiTroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rdoQLNVTruongPhong)
-                .addGap(33, 33, 33)
-                .addComponent(rdoQLNVNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pnlVaiTroLayout.setVerticalGroup(
-            pnlVaiTroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVaiTroLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(pnlVaiTroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdoQLNVTruongPhong)
-                    .addComponent(rdoQLNVNhanVien))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlVaiTro.add(rdoQLNVNhanVien);
 
         jPanel6.add(pnlVaiTro);
 
         pnlTrangThai.setBackground(new java.awt.Color(34, 40, 44));
         pnlTrangThai.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Trạng thái", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
         pnlTrangThai.setPreferredSize(new java.awt.Dimension(247, 63));
+        pnlTrangThai.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 10, 10));
 
         rdoKhoa.setBackground(new java.awt.Color(34, 40, 44));
         buttonGroup2.add(rdoKhoa);
         rdoKhoa.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         rdoKhoa.setForeground(new java.awt.Color(255, 255, 255));
         rdoKhoa.setText("Khóa");
+        pnlTrangThai.add(rdoKhoa);
 
         rdoMoKhoa.setBackground(new java.awt.Color(34, 40, 44));
         buttonGroup2.add(rdoMoKhoa);
@@ -325,27 +309,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         rdoMoKhoa.setForeground(new java.awt.Color(255, 255, 255));
         rdoMoKhoa.setSelected(true);
         rdoMoKhoa.setText("Mở khóa");
-
-        javax.swing.GroupLayout pnlTrangThaiLayout = new javax.swing.GroupLayout(pnlTrangThai);
-        pnlTrangThai.setLayout(pnlTrangThaiLayout);
-        pnlTrangThaiLayout.setHorizontalGroup(
-            pnlTrangThaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlTrangThaiLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(rdoKhoa)
-                .addGap(33, 33, 33)
-                .addComponent(rdoMoKhoa, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
-        );
-        pnlTrangThaiLayout.setVerticalGroup(
-            pnlTrangThaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlTrangThaiLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(pnlTrangThaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdoKhoa)
-                    .addComponent(rdoMoKhoa))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        pnlTrangThai.add(rdoMoKhoa);
 
         jPanel6.add(pnlTrangThai);
 
@@ -581,7 +545,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnQLNVXoaActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
-        if (txtTimKiem.getText().equals("Nhập mã nhân viên cần tìm") || txtTimKiem.getText().trim().isEmpty()) {
+        if (txtTimKiem.getText().equals("Nhập mã nhân viên cần tìm") || txtTimKiem.getText().equals("Enter staff ID") || txtTimKiem.getText().trim().isEmpty()) {
             timKiemFocus();
             return;
         }
@@ -601,7 +565,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void txtTimKiemFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTimKiemFocusGained
-        if (txtTimKiem.getText().equals("Nhập mã nhân viên cần tìm")) {
+        if (txtTimKiem.getText().equals("Nhập mã nhân viên cần tìm") || txtTimKiem.getText().equals("Enter staff ID")) {
             txtTimKiem.setText("");
             txtTimKiem.setForeground(Color.BLACK);
         }
@@ -680,7 +644,12 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
 
     public void QLNVchangeLanguge() {
         this.QLNVLG.changeLanguage(LanguageSelected.getSelected);
-        LoadDataToTable();
+        this.QLNVLG.changeLanguageForTable(LanguageSelected.getSelected);
+        if (LanguageSelected.getSelected == 0 && txtTimKiem.getText().equals("Enter staff ID")) {
+            txtTimKiem.setText("Nhập mã nhân viên cần tìm");
+        } else if (LanguageSelected.getSelected == 1 && txtTimKiem.getText().equals("Nhập mã nhân viên cần tìm")) {
+            txtTimKiem.setText("Enter staff ID");
+        }
     }
 
     private void LoadDataToTable() {
@@ -742,6 +711,18 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         tblQLNV.setRowSelectionInterval(i, i);
     }
 
+    private NhanVien getForm() {
+        //lấy dữ liệu đã nhập từ trên form
+        String manv = txtQLNVMaNV.getText();
+        String hoTen = txtQLNVHoTen.getText();
+        String Email = txtEmail.getText();
+        String matKhau = txtQLNVMatKhau.getText();
+        boolean vaiTro = rdoQLNVTruongPhong.isSelected();
+        boolean trangThai = rdoMoKhoa.isSelected();
+        int SLDangNhapSai = rdoMoKhoa.isSelected() ? 0 : 5;
+        return new NhanVien(manv, matKhau, hoTen, Email, SLDangNhapSai, trangThai, vaiTro);
+    }
+    
     private void clearForm() {
         //xóa trắng form
         this.txtQLNVMaNV.setText("");
@@ -770,11 +751,6 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         }
     }
 
-    private void next() {
-        index++;
-        updateStatus();
-        showForm(index);
-    }
 
     private boolean mouseClicked() {
         //xử lý sưk kiện click lên table
@@ -787,6 +763,12 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         return false;
     }
 
+    private void next() {
+        index++;
+        updateStatus();
+        showForm(index);
+    }
+    
     private void last() {
         index = tblQLNV.getRowCount() - 1;
         updateStatus();
@@ -805,17 +787,6 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         showForm(index);
     }
 
-    private NhanVien getForm() {
-        //lấy dữ liệu đã nhập từ trên form
-        String manv = txtQLNVMaNV.getText();
-        String hoTen = txtQLNVHoTen.getText();
-        String Email = txtEmail.getText();
-        String matKhau = txtQLNVMatKhau.getText();
-        boolean vaiTro = rdoQLNVTruongPhong.isSelected();
-        boolean trangThai = rdoMoKhoa.isSelected();
-        int SLDangNhapSai = rdoMoKhoa.isSelected() ? 0 : 5;
-        return new NhanVien(manv, matKhau, hoTen, Email, SLDangNhapSai, trangThai, vaiTro);
-    }
 
     private boolean checkForm() {
         //checkRong
@@ -864,6 +835,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         //check Trùng
         for (int i = 0; i < tblQLNV.getRowCount(); i++) {
             if (manv.equals(tblQLNV.getValueAt(i, 0))) {
+                this.tblQLNV.setRowSelectionInterval(i, i);
                 return true;
             }
         }
@@ -961,7 +933,11 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
     private void timKiemFocus() {
         if (txtTimKiem.getText().trim().isEmpty()) {
             txtTimKiem.setForeground(new Color(255, 0, 0));
-            txtTimKiem.setText("Nhập mã nhân viên cần tìm");
+            if (LanguageSelected.getSelected == 0) {
+                txtTimKiem.setText("Nhập mã nhân viên cần tìm");
+            } else {
+                txtTimKiem.setText("Enter staff ID");
+            }
         }
     }
 

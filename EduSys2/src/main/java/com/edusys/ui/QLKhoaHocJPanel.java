@@ -5,17 +5,32 @@
  */
 package com.edusys.ui;
 
+import com.edusys.dao.ChuyenDeDAO;
+import com.edusys.dao.KhoaHocDAO;
+import com.edusys.entity.ChuyenDe;
+import com.edusys.entity.KhoaHoc;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author XUÂN THÀNH
  */
 public class QLKhoaHocJPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form QLKhoaHocJPanel
-     */
+    private DefaultComboBoxModel<ChuyenDe> dcbm;
+    private DefaultTableModel dtm;
+    private ChuyenDeDAO cddao;
+    private KhoaHocDAO khdao;
+    private int index;
+    
     public QLKhoaHocJPanel() {
         initComponents();
+        
+        init();
     }
 
     /**
@@ -32,6 +47,7 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         lblQLKhoaHocTitle = new javax.swing.JLabel();
         pnlChuyenDe = new javax.swing.JPanel();
         cbbChuyenDe = new javax.swing.JComboBox<>();
+        btnLoadCD = new javax.swing.JButton();
         pnlQLKH = new javax.swing.JPanel();
         pnlQLKH2 = new javax.swing.JPanel();
         pnlQLKHInput = new javax.swing.JPanel();
@@ -73,6 +89,11 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         txtGhiChu = new javax.swing.JTextArea();
 
         pnlCardQLKhoaHoc.setBackground(new java.awt.Color(34, 40, 44));
+        pnlCardQLKhoaHoc.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pnlCardQLKhoaHocFocusGained(evt);
+            }
+        });
         pnlCardQLKhoaHoc.setLayout(new java.awt.BorderLayout());
 
         pnlQLKHTop.setBackground(new java.awt.Color(34, 40, 44));
@@ -85,28 +106,48 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         lblQLKhoaHocTitle.setToolTipText("");
         lblQLKhoaHocTitle.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         lblQLKhoaHocTitle.setPreferredSize(new java.awt.Dimension(34, 40));
+        lblQLKhoaHocTitle.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                lblQLKhoaHocTitleFocusGained(evt);
+            }
+        });
         pnlQLKHTop.add(lblQLKhoaHocTitle, java.awt.BorderLayout.NORTH);
 
         pnlChuyenDe.setBackground(new java.awt.Color(34, 40, 44));
         pnlChuyenDe.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED), "CHUYÊN ĐỀ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14), new java.awt.Color(255, 102, 102))); // NOI18N
 
-        cbbChuyenDe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbChuyenDe.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbChuyenDeItemStateChanged(evt);
+            }
+        });
+
+        btnLoadCD.setText("Load Chuyên Đề");
+        btnLoadCD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadCDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlChuyenDeLayout = new javax.swing.GroupLayout(pnlChuyenDe);
         pnlChuyenDe.setLayout(pnlChuyenDeLayout);
         pnlChuyenDeLayout.setHorizontalGroup(
             pnlChuyenDeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlChuyenDeLayout.createSequentialGroup()
+            .addGroup(pnlChuyenDeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cbbChuyenDe, 0, 881, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(cbbChuyenDe, 0, 674, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
+                .addComponent(btnLoadCD)
+                .addGap(71, 71, 71))
         );
         pnlChuyenDeLayout.setVerticalGroup(
             pnlChuyenDeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlChuyenDeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cbbChuyenDe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlChuyenDeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbbChuyenDe)
+                    .addComponent(btnLoadCD))
+                .addContainerGap())
         );
 
         pnlQLKHTop.add(pnlChuyenDe, java.awt.BorderLayout.CENTER);
@@ -356,18 +397,28 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "MÃ KH", "THỜI LƯỢNG", "HỌC PHÍ", "Khai Giảng", "TẠO BỞI", "NGÀY TẠO"
+                "MÃ KH", "THỜI LƯỢNG", "HỌC PHÍ", "Khai Giảng", "TẠO BỞI", "NGÀY TẠO", "GHICHU"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblKhoaHoc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKhoaHocMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblKhoaHoc);
+        if (tblKhoaHoc.getColumnModel().getColumnCount() > 0) {
+            tblKhoaHoc.getColumnModel().getColumn(6).setMinWidth(0);
+            tblKhoaHoc.getColumnModel().getColumn(6).setPreferredWidth(0);
+            tblKhoaHoc.getColumnModel().getColumn(6).setMaxWidth(0);
+        }
 
         pnlGhiChu.setBackground(new java.awt.Color(34, 40, 44));
         pnlGhiChu.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ghi Chú", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -455,10 +506,34 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbbChuyenDeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbChuyenDeItemStateChanged
+        ChuyenDe cd = (ChuyenDe) cbbChuyenDe.getSelectedItem();
+        this.txtTenCD.setText(cd.getTenCD());
+        this.txtHocPhi.setText(cd.getHocPhi()+"");
+        loadDataToTable(cd.getMaCD());
+    }//GEN-LAST:event_cbbChuyenDeItemStateChanged
+
+    private void pnlCardQLKhoaHocFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pnlCardQLKhoaHocFocusGained
+    }//GEN-LAST:event_pnlCardQLKhoaHocFocusGained
+
+    private void lblQLKhoaHocTitleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lblQLKhoaHocTitleFocusGained
+    }//GEN-LAST:event_lblQLKhoaHocTitleFocusGained
+
+    private void btnLoadCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadCDActionPerformed
+        this.loadDataToCBB();
+        ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
+        loadDataToTable(cd.getMaCD());
+    }//GEN-LAST:event_btnLoadCDActionPerformed
+
+    private void tblKhoaHocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhoaHocMouseClicked
+
+    }//GEN-LAST:event_tblKhoaHocMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFirst;
     private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnLoadCD;
     private javax.swing.JButton btnMoi;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPre;
@@ -502,4 +577,82 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField txtTenNguoiTao;
     private javax.swing.JTextField txtThoiLuong;
     // End of variables declaration//GEN-END:variables
+
+    public void init() {
+        //khai báo chuyên đề dao
+        this.cddao = new ChuyenDeDAO();
+        //khai báo khóa học dao
+        this.khdao = new KhoaHocDAO();
+        
+        this.dcbm = (DefaultComboBoxModel)this.cbbChuyenDe.getModel();
+        this.dtm = (DefaultTableModel) this.tblKhoaHoc.getModel();
+        
+        //load dữ liệu lên combobox chuyên đề
+        loadDataToCBB();
+        //load dữ liệu lên bảo theo chuyên đề
+        ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
+        loadDataToTable(cd.getMaCD());
+    }
+    
+    public void loadDataToCBB(){
+        ArrayList<ChuyenDe> listCD = new ArrayList<>();
+        this.dcbm.removeAllElements();
+        this.cbbChuyenDe.removeAllItems();
+        try {
+//        this.dcbm = (DefaultComboBoxModel)this.cbbChuyenDe.getModel();
+            listCD = this.cddao.selectALL();
+            for (ChuyenDe cd : listCD) {
+                this.dcbm.addElement(cd);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void loadDataToTable(String maCD) {
+        ArrayList<KhoaHoc> listKH = new ArrayList<>();
+        this.dtm.setRowCount(0);
+        try {
+            listKH = this.khdao.selectByQuery("SELECTBYMACD", maCD);
+            for (KhoaHoc kh : listKH) {
+                setDataRow(kh);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void setDataRow(KhoaHoc kh) {
+        dtm.addRow(new Object[]{
+            kh.getMaKH(),
+            kh.getThoiLuong(),
+            kh.getHocPhi(),
+            kh.getNgayKG(),
+            kh.getMaNV(),
+            kh.getNgayTao()
+        });
+    }
+    
+    private void updateStatus() {
+        //cập nhập trạng thái cho các button điều hướng
+        boolean first = (this.index <= 0);
+        boolean last = (this.index == tblKhoaHoc.getRowCount() - 1);
+        this.btnFirst.setEnabled(!first);
+        this.btnPre.setEnabled(!first);
+        this.btnLast.setEnabled(!last);
+        this.btnNext.setEnabled(!last);
+        if (index == -1) {
+            this.tblKhoaHoc.setRowSelectionAllowed(false);
+        } else {
+            this.tblKhoaHoc.setRowSelectionAllowed(true);
+        }
+    }
+    
+    private void showForm(int i) {
+        //hiển thị dữ liệu lên form tương ứng
+        
+        
+        this.txtGhiChu.setText(tblKhoaHoc.getValueAt(i, 6) + "");
+        this.tblKhoaHoc.setRowSelectionInterval(i, i);
+    }
 }

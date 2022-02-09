@@ -17,4 +17,5 @@ public interface BaseDAOInterface<T,K> {
     public boolean delete(K key)throws Exception;
     public T selectByID(K key)throws Exception;
     public ArrayList<T> selectALL()throws Exception;
+    public ArrayList<T> selectByQuery(String query, Object... args)throws Exception;
 }

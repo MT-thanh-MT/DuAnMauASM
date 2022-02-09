@@ -20,6 +20,7 @@ public class DateHelper {
     public static Date toDate(String date, String pattern) {
         try {
             formater.applyPattern(pattern);
+            formater.setLenient(false); //kiểm tra tháng từ 1-12, ngày từ 1-31
             return formater.parse(date);
         } catch (ParseException e) {
             throw new RuntimeException(e);

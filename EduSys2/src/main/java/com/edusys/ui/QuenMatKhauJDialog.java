@@ -68,6 +68,7 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
         btnGuiLai = new javax.swing.JButton();
         btnTiepTuc = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        lblThoiGianHieuLuc = new javax.swing.JLabel();
         lblBackground1 = new javax.swing.JLabel();
         pnlDoiMK = new javax.swing.JPanel();
         lblQuayLai2 = new javax.swing.JLabel();
@@ -80,6 +81,7 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
         lblBackground2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         pnlCardsQMK.setLayout(new java.awt.CardLayout());
 
@@ -212,7 +214,11 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
         jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Nhập mã OTP chúng tôi đã gửi cho bạn:");
-        pnlMaOTP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, 420, 40));
+        pnlMaOTP.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 420, 40));
+
+        lblThoiGianHieuLuc.setForeground(new java.awt.Color(255, 51, 51));
+        lblThoiGianHieuLuc.setText("Mã OTP sẽ hết hiệu lực trong:: 120s");
+        pnlMaOTP.add(lblThoiGianHieuLuc, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 340, -1));
 
         lblBackground1.setBackground(new java.awt.Color(51, 51, 51));
         lblBackground1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -290,11 +296,11 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlCardsQMK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlCardsQMK, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlCardsQMK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlCardsQMK, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
         );
 
         pack();
@@ -339,8 +345,9 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
             MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn"), this);
             return;
         }
-
+        //gửi mail mã OTP
         if (sendEmail(nv)) return;
+         thoiGianHieuLucOTP();
         
         CardLayout layout = (CardLayout) pnlCardsQMK.getLayout();
 
@@ -360,6 +367,8 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
 
     private void btnGuiLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuiLaiActionPerformed
         if (sendEmail(nv)) return;
+        btnTiepTuc.setEnabled(true);
+        thoiGianHieuLucOTP();
     }//GEN-LAST:event_btnGuiLaiActionPerformed
 
     private void btnTiepTucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTiepTucActionPerformed
@@ -466,6 +475,7 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblQuayLai;
     private javax.swing.JLabel lblQuayLai1;
     private javax.swing.JLabel lblQuayLai2;
+    private javax.swing.JLabel lblThoiGianHieuLuc;
     private javax.swing.JPanel pnlCardsQMK;
     private javax.swing.JPanel pnlDoiMK;
     private javax.swing.JPanel pnlMaOTP;
@@ -572,5 +582,32 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
             
         }
         return false;
+    }
+    
+    
+    private void thoiGianHieuLucOTP() {
+        //        if (sendEmail(nv)) return;
+        new Thread(){
+            @Override
+            public void run() {
+                String txt = "Mã OTP sẽ hết hiệu lực trong: ";
+                int i = 120;
+                while (true) {
+                    if (i==1){
+                        lblThoiGianHieuLuc.setText("Mã OTP đã hết hiệu lực vui lòng bấm gửi lại để tiếp tục!");
+                        btnTiepTuc.setEnabled(false);
+                        this.stop();
+                    }
+                    lblThoiGianHieuLuc.setText(txt+i+"s");
+                    i--;
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            
+        }.start();
     }
 }

@@ -60,8 +60,8 @@ public abstract class BaseDao<T, K> implements BaseDAOInterface<T, K> {
         try {
             ResultSet rs = JdbcHelper.query(this.getQuery("SELECTALL"));
             while (rs.next()) {
-                T e = createEntity(rs);
-                list.add(e);
+                T e1 = createEntity(rs);
+                list.add(e1);
             }
             rs.getStatement().getConnection().close();
             return list;
@@ -70,4 +70,22 @@ public abstract class BaseDao<T, K> implements BaseDAOInterface<T, K> {
         }
     }
 
+    @Override
+    public  ArrayList<T> selectByQuery(String query, Object... args) throws Exception{
+        ArrayList<T> list = new ArrayList<>();
+        try {
+            ResultSet rs = JdbcHelper.query(this.getQuery(query), args);
+            while (rs.next()) {
+                T e1 = createEntity(rs);
+                list.add(e1);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+    
+    
+    
 }

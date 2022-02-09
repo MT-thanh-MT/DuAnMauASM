@@ -74,7 +74,7 @@ public class QLNVLanguage {
                 this.rdoMoKhoa.setText("Mở khóa");
                 this.tblQLNV.getColumnModel().getColumn(0).setHeaderValue("MÃ NV");
                 this.tblQLNV.getColumnModel().getColumn(1).setHeaderValue("MẬT KHẨU");
-                this.tblQLNV.getColumnModel().getColumn(2).setHeaderValue("HỌ TÊN");
+                this.tblQLNV.getColumnModel().getColumn(2).setHeaderValue("HỌ VÀ TÊN");
                 this.tblQLNV.getColumnModel().getColumn(3).setHeaderValue("VAI TRÒ");
                 this.tblQLNV.getColumnModel().getColumn(4).setHeaderValue("EMAIL");
                 this.tblQLNV.getColumnModel().getColumn(5).setHeaderValue("TRẠNG THÁI");
@@ -121,6 +121,36 @@ public class QLNVLanguage {
                         javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11),
                         new java.awt.Color(255, 255, 255)));
                 break;
+        }
+    }
+    public void changeLanguageForTable(int choice){
+        for (int i = 0; i < tblQLNV.getRowCount(); i++) {
+            if (choice == 0) {
+                if (tblQLNV.getValueAt(i, 3).equals("Quản Trị") || tblQLNV.getValueAt(i, 3).equals("Admin")) {
+                    tblQLNV.setValueAt("Quản Trị", i, 3);
+                } else {
+                    tblQLNV.setValueAt("Nhân viên", i, 3);
+                }
+                
+                if (tblQLNV.getValueAt(i, 5).equals("Mở khóa") || tblQLNV.getValueAt(i, 5).equals("Unlock")) {
+                    tblQLNV.setValueAt("Mở khóa", i, 5);
+                } else {
+                    tblQLNV.setValueAt("Khóa", i, 5);
+                }
+                
+            } else {
+                if (tblQLNV.getValueAt(i, 3).equals("Quản Trị") || tblQLNV.getValueAt(i, 3).equals("Admin")) {
+                    tblQLNV.setValueAt("Admin", i, 3);
+                } else {
+                    tblQLNV.setValueAt("Staff", i, 3);
+                }
+                
+                if (tblQLNV.getValueAt(i, 5).equals("Mở khóa") || tblQLNV.getValueAt(i, 5).equals("Unlock")) {
+                    tblQLNV.setValueAt("Unlock", i, 5);
+                } else {
+                    tblQLNV.setValueAt("Lock", i, 5);
+                }
+            }
         }
     }
 
