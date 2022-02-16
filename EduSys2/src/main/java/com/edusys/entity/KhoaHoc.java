@@ -25,6 +25,16 @@ public class KhoaHoc {
     public KhoaHoc() {
     }
 
+    public KhoaHoc(String maCD, float hocPhi, int thoiLuong, Date ngayKG, String ghiChu, String maNV, Date ngayTao) {
+        this.maCD = maCD;
+        this.hocPhi = hocPhi;
+        this.thoiLuong = thoiLuong;
+        this.ngayKG = ngayKG;
+        this.ghiChu = ghiChu;
+        this.maNV = maNV;
+        this.ngayTao = ngayTao;
+    }
+
     public KhoaHoc(int maKH, String maCD, float hocPhi, int thoiLuong, Date ngayKG, String ghiChu, String maNV, Date ngayTao) {
         this.maKH = maKH;
         this.maCD = maCD;

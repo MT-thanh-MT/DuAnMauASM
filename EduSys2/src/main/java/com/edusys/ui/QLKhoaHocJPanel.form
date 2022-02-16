@@ -375,6 +375,9 @@
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JTextField" name="txtHocPhi">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                              </Properties>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -412,6 +415,9 @@
                           </Layout>
                           <SubComponents>
                             <Component class="javax.swing.JTextField" name="txtTenNguoiTao">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                              </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblTenNguoiTao">
                               <Properties>
@@ -526,6 +532,9 @@
                           </Layout>
                           <SubComponents>
                             <Component class="javax.swing.JTextField" name="txtThoiLuong">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                              </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblThoiLuong">
                               <Properties>
@@ -553,7 +562,7 @@
                                   <Group type="102" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblNgayTao" alignment="0" pref="428" max="32767" attributes="0"/>
+                                          <Component id="lblNgayTao" pref="428" max="32767" attributes="0"/>
                                           <Component id="txtNgayTao" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -565,15 +574,18 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="lblNgayTao" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace pref="7" max="32767" attributes="0"/>
-                                      <Component id="txtNgayTao" min="-2" pref="30" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="txtNgayTao" min="-2" pref="30" max="-2" attributes="0"/>
+                                      <EmptySpace pref="11" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
                           </Layout>
                           <SubComponents>
                             <Component class="javax.swing.JTextField" name="txtNgayTao">
+                              <Properties>
+                                <Property name="editable" type="boolean" value="false"/>
+                              </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblNgayTao">
                               <Properties>
@@ -618,6 +630,9 @@
                               <Dimension value="[65, 41]"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnThemActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnSua">
                           <Properties>
@@ -629,6 +644,9 @@
                               <Dimension value="[65, 41]"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSuaActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnXoa">
                           <Properties>
@@ -640,6 +658,9 @@
                               <Dimension value="[65, 41]"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnMoi">
                           <Properties>
@@ -651,6 +672,9 @@
                               <Dimension value="[65, 41]"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMoiActionPerformed"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -669,6 +693,9 @@
                               <Image iconType="3" name="/com/edusys/icons/rnd_br_first.png"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFirstActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnPre">
                           <Properties>
@@ -676,6 +703,9 @@
                               <Image iconType="3" name="/com/edusys/icons/rnd_br_prev.png"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPreActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnNext">
                           <Properties>
@@ -683,6 +713,9 @@
                               <Image iconType="3" name="/com/edusys/icons/rnd_br_next.png"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JButton" name="btnLast">
                           <Properties>
@@ -690,6 +723,9 @@
                               <Image iconType="3" name="/com/edusys/icons/rnd_br_last.png"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLastActionPerformed"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>

@@ -9,7 +9,12 @@ import com.edusys.dao.ChuyenDeDAO;
 import com.edusys.dao.KhoaHocDAO;
 import com.edusys.entity.ChuyenDe;
 import com.edusys.entity.KhoaHoc;
+import com.edusys.utils.Auth;
+import com.edusys.utils.DateHelper;
+import com.edusys.utils.MessegerHelper;
+import com.sun.mail.imap.ACL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -26,10 +31,10 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
     private ChuyenDeDAO cddao;
     private KhoaHocDAO khdao;
     private int index;
-    
+
     public QLKhoaHocJPanel() {
         initComponents();
-        
+
         init();
     }
 
@@ -204,6 +209,8 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         lblHocPhi.setForeground(new java.awt.Color(255, 255, 255));
         lblHocPhi.setText("Học Phí");
 
+        txtHocPhi.setEditable(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -228,6 +235,8 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         jPanel16.add(jPanel3);
 
         jPanel4.setBackground(new java.awt.Color(34, 40, 44));
+
+        txtTenNguoiTao.setEditable(false);
 
         lblTenNguoiTao.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         lblTenNguoiTao.setForeground(new java.awt.Color(255, 255, 255));
@@ -292,6 +301,8 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(34, 40, 44));
 
+        txtThoiLuong.setEditable(false);
+
         lblThoiLuong.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         lblThoiLuong.setForeground(new java.awt.Color(255, 255, 255));
         lblThoiLuong.setText("Thời Lượng(giờ)");
@@ -321,6 +332,8 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
 
         jPanel7.setBackground(new java.awt.Color(34, 40, 44));
 
+        txtNgayTao.setEditable(false);
+
         lblNgayTao.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         lblNgayTao.setForeground(new java.awt.Color(255, 255, 255));
         lblNgayTao.setText("Ngày Tạo");
@@ -341,9 +354,9 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblNgayTao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         jPanel2.add(jPanel7);
@@ -357,21 +370,41 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         btnThem.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnThem.setText("Thêm");
         btnThem.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
         jPanel12.add(btnThem);
 
         btnSua.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnSua.setText("Sửa");
         btnSua.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
         jPanel12.add(btnSua);
 
         btnXoa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
         jPanel12.add(btnXoa);
 
         btnMoi.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnMoi.setText("Mới");
         btnMoi.setPreferredSize(new java.awt.Dimension(65, 41));
+        btnMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoiActionPerformed(evt);
+            }
+        });
         jPanel12.add(btnMoi);
 
         pnlButton.add(jPanel12);
@@ -379,15 +412,35 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         jPanel11.setBackground(new java.awt.Color(34, 40, 44));
 
         btnFirst.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/rnd_br_first.png"))); // NOI18N
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
         jPanel11.add(btnFirst);
 
         btnPre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/rnd_br_prev.png"))); // NOI18N
+        btnPre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreActionPerformed(evt);
+            }
+        });
         jPanel11.add(btnPre);
 
         btnNext.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/rnd_br_next.png"))); // NOI18N
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
         jPanel11.add(btnNext);
 
         btnLast.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/rnd_br_last.png"))); // NOI18N
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
         jPanel11.add(btnLast);
 
         pnlButton.add(jPanel11);
@@ -509,7 +562,9 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
     private void cbbChuyenDeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbChuyenDeItemStateChanged
         ChuyenDe cd = (ChuyenDe) cbbChuyenDe.getSelectedItem();
         this.txtTenCD.setText(cd.getTenCD());
-        this.txtHocPhi.setText(cd.getHocPhi()+"");
+        this.txtHocPhi.setText(cd.getHocPhi() + "");
+        this.txtThoiLuong.setText(cd.getThoiLuong() + "");
+        this.txtGhiChu.setText(cd.getMoTa());
         loadDataToTable(cd.getMaCD());
     }//GEN-LAST:event_cbbChuyenDeItemStateChanged
 
@@ -526,8 +581,90 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLoadCDActionPerformed
 
     private void tblKhoaHocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhoaHocMouseClicked
-
+        if (mouseClicked())
+            return;
     }//GEN-LAST:event_tblKhoaHocMouseClicked
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        first();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreActionPerformed
+        prev();
+    }//GEN-LAST:event_btnPreActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        next();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        last();
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        clearForm();
+    }//GEN-LAST:event_btnMoiActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
+        if (checkForm()) {
+            return;
+        }
+
+        try {
+            this.khdao.insert(getForm());
+            MessegerHelper.alert("Thêm thành công", this);
+            this.loadDataToTable(cd.getMaCD());
+            this.index = tblKhoaHoc.getRowCount() - 1;
+            this.tblKhoaHoc.setRowSelectionInterval(index, index);
+            showForm(index);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn"), this);
+            return;
+        }
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        if (checkForm()) {
+            return;
+        }
+        KhoaHoc kh = getForm();
+        kh.setMaKH((int) this.tblKhoaHoc.getValueAt(index, 0));
+
+        if (MessegerHelper.confirm(this, "Bạn có muốn sửa khóa học có mã " + kh.getMaKH() + " không?")) {
+            try {
+                this.khdao.update(kh);
+                MessegerHelper.alert("Sửa thành công", this);
+                this.tblKhoaHoc.setValueAt(kh.getThoiLuong(), index, 1);
+                this.tblKhoaHoc.setValueAt(kh.getHocPhi(), index, 2);
+                this.tblKhoaHoc.setValueAt(DateHelper.toString(kh.getNgayKG(), "dd/MM/yyyy"), index, 3);
+                this.tblKhoaHoc.setValueAt(kh.getMaNV(), index, 4);
+                this.tblKhoaHoc.setValueAt(DateHelper.toString(kh.getNgayTao(), "dd/MM/yyyy"), index, 5);
+                this.tblKhoaHoc.setValueAt(kh.getGhiChu(), index, 6);
+            } catch (Exception e) {
+                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
+                e.printStackTrace();
+                return;
+            }
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+       int makh = (int) this.tblKhoaHoc.getValueAt(index, 0);
+        if (MessegerHelper.confirm(this, "Bạn có muốn xóa khóa học có mã: " + makh + " này không?")) {
+            try {
+                this.khdao.delete(makh);
+                MessegerHelper.alert("Xóa thành công", this);
+                this.dtm.removeRow(index);
+                showForm(index > tblKhoaHoc.getRowCount() - 1 ? tblKhoaHoc.getRowCount() - 1 : index);
+            } catch (Exception ex) {
+                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
+                ex.printStackTrace();
+                return;
+            }
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -583,18 +720,18 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         this.cddao = new ChuyenDeDAO();
         //khai báo khóa học dao
         this.khdao = new KhoaHocDAO();
-        
-        this.dcbm = (DefaultComboBoxModel)this.cbbChuyenDe.getModel();
+
+        this.dcbm = (DefaultComboBoxModel) this.cbbChuyenDe.getModel();
         this.dtm = (DefaultTableModel) this.tblKhoaHoc.getModel();
-        
+
         //load dữ liệu lên combobox chuyên đề
         loadDataToCBB();
         //load dữ liệu lên bảo theo chuyên đề
         ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
         loadDataToTable(cd.getMaCD());
     }
-    
-    public void loadDataToCBB(){
+
+    public void loadDataToCBB() {
         ArrayList<ChuyenDe> listCD = new ArrayList<>();
         this.dcbm.removeAllElements();
         this.cbbChuyenDe.removeAllItems();
@@ -614,9 +751,16 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         this.dtm.setRowCount(0);
         try {
             listKH = this.khdao.selectByQuery("SELECTBYMACD", maCD);
+            if (listKH.size() <= 0) {
+                clearForm();
+                return;
+            }
             for (KhoaHoc kh : listKH) {
                 setDataRow(kh);
             }
+            this.index = 0;
+            updateStatus();
+            showForm(index);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -627,16 +771,19 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
             kh.getMaKH(),
             kh.getThoiLuong(),
             kh.getHocPhi(),
-            kh.getNgayKG(),
+            DateHelper.toString(kh.getNgayKG(), "dd/MM/yyyy"),
             kh.getMaNV(),
-            kh.getNgayTao()
+            DateHelper.toString(kh.getNgayTao(), "dd/MM/yyyy"),
+            kh.getGhiChu()
         });
     }
-    
+
     private void updateStatus() {
         //cập nhập trạng thái cho các button điều hướng
         boolean first = (this.index <= 0);
         boolean last = (this.index == tblKhoaHoc.getRowCount() - 1);
+        this.btnSua.setEnabled(this.index >= 0);
+        this.btnXoa.setEnabled(this.index >= 0);
         this.btnFirst.setEnabled(!first);
         this.btnPre.setEnabled(!first);
         this.btnLast.setEnabled(!last);
@@ -647,12 +794,94 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
             this.tblKhoaHoc.setRowSelectionAllowed(true);
         }
     }
-    
+
     private void showForm(int i) {
         //hiển thị dữ liệu lên form tương ứng
-        
-        
+        this.txtTenNguoiTao.setText(tblKhoaHoc.getValueAt(i, 4) + "");
+        this.txtNgayKG.setText(tblKhoaHoc.getValueAt(i, 3) + "");
+        this.txtNgayTao.setText(tblKhoaHoc.getValueAt(i, 5) + "");
         this.txtGhiChu.setText(tblKhoaHoc.getValueAt(i, 6) + "");
         this.tblKhoaHoc.setRowSelectionInterval(i, i);
+    }
+
+    private KhoaHoc getForm() {
+        ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
+        String maCD = cd.getMaCD();
+        float hocPhi = cd.getHocPhi();
+        int thoiLuong = cd.getThoiLuong();
+        Date ngayKG = DateHelper.toDate(this.txtNgayKG.getText(), "dd/MM/yyyy");
+        String ghiChu = this.txtGhiChu.getText();
+        String maNV = Auth.nguoiDungHienTai.getMaNV();
+        Date ngayTao = DateHelper.toDate(DateHelper.toString(new Date(), "dd/MM/yyyy"), "dd/MM/yyyy");;
+        return new KhoaHoc(maCD, hocPhi, thoiLuong, ngayKG, ghiChu, maNV, ngayTao);
+    }
+
+    private void clearForm() {
+        //xóa trắng form
+        this.txtNgayKG.setText("");
+        this.txtGhiChu.setText("");
+        this.txtNgayTao.setText("");
+        this.txtTenNguoiTao.setText("");
+        this.index = -1;
+        updateStatus();
+    }
+
+    private boolean mouseClicked() {
+        //xử lý sưk kiện click lên table
+        this.index = tblKhoaHoc.getSelectedRow();
+        updateStatus();
+        if (index == -1) {
+            return true;
+        }
+        showForm(index);
+        return false;
+    }
+
+    private void next() {
+        index++;
+        updateStatus();
+        showForm(index);
+    }
+
+    private void last() {
+        index = tblKhoaHoc.getRowCount() - 1;
+        updateStatus();
+        showForm(index);
+    }
+
+    private void prev() {
+        index--;
+        updateStatus();
+        showForm(index);
+    }
+
+    private void first() {
+        index = 0;
+        updateStatus();
+        showForm(index);
+    }
+
+    private boolean checkForm() {
+        StringBuilder loi = new StringBuilder();
+        if (this.txtNgayKG.getText().trim().isEmpty()) {
+            loi.append("Bạn phải nhập ngày khai giảng!");
+        } else {
+            try {
+                Date nkg = DateHelper.toDate(txtNgayKG.getText(), "dd/MM/yyyy");
+                Date now = new Date();
+                if (nkg.before(now)) {
+                    loi.append("Ngày khai giảng phải là ngày sau hiện tại");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                loi.append("Sai định dạng(dd/MM/yyyy)");
+            }
+        }
+        //hiển thị thông báo lỗi
+        if (loi.length() > 0) {
+            MessegerHelper.errorMesseger(loi, this);
+            return true;
+        }
+        return false;
     }
 }

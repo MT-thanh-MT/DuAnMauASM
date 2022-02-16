@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author XUÂN THÀNH
  */
-public class KhoaHocDAO extends BaseDao<KhoaHoc, String>{
+public class KhoaHocDAO extends BaseDao<KhoaHoc, Integer>{
 
     @Override
     public String getQuery(String action) {
