@@ -9,6 +9,8 @@ import com.edusys.Language.LanguageSelected;
 import com.edusys.Language.MainFormLanguage;
 import com.edusys.utils.Auth;
 import com.edusys.utils.ImageHelper;
+import com.edusys.utils.MessegerHelper;
+import com.edusys.utils.QR_CODE;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -98,6 +100,7 @@ public class EduSysJframe extends javax.swing.JFrame {
         pnlThongKe = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mnuHeThong = new javax.swing.JMenu();
+        mniTaoQR = new javax.swing.JMenuItem();
         mniDangXuat = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mniDoiMatKhau = new javax.swing.JMenuItem();
@@ -382,6 +385,15 @@ public class EduSysJframe extends javax.swing.JFrame {
 
         mnuHeThong.setText("Hệ thống");
 
+        mniTaoQR.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/QR16.png"))); // NOI18N
+        mniTaoQR.setText("Tạo mã QR");
+        mniTaoQR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniTaoQRActionPerformed(evt);
+            }
+        });
+        mnuHeThong.add(mniTaoQR);
+
         mniDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icons/doc_export16.png"))); // NOI18N
         mniDangXuat.setText("Đăng xuất");
         mniDangXuat.addActionListener(new java.awt.event.ActionListener() {
@@ -615,11 +627,11 @@ public class EduSysJframe extends javax.swing.JFrame {
     }//GEN-LAST:event_mniGioiThieuActionPerformed
 
     private void mniHuongDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHuongDanActionPerformed
-            openHuongDanHtml();
+        openHuongDanHtml();
     }//GEN-LAST:event_mniHuongDanActionPerformed
 
     private void btnHuongDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuongDanActionPerformed
-            openHuongDanHtml();
+        openHuongDanHtml();
     }//GEN-LAST:event_btnHuongDanActionPerformed
 
     private void mniChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniChuyenDeActionPerformed
@@ -683,6 +695,18 @@ public class EduSysJframe extends javax.swing.JFrame {
         this.QLHVJPanel.QLHVchangeLanguge();
         this.thongKeJPanel.ThongKechangeLanguge();
     }//GEN-LAST:event_mniEnglishActionPerformed
+
+    private void mniTaoQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTaoQRActionPerformed
+        if (MessegerHelper.confirm(this, "Bạn có muốn tạo mã QR không?")) {
+            QR_CODE.createQRCode(Auth.nguoiDungHienTai.getMaNV());
+            if (QR_CODE.sendQRCodeToUser(Auth.nguoiDungHienTai.getEmail())){
+                MessegerHelper.errorMesseger(new StringBuilder("Lỗi Đường truyền"), this);
+                return;
+            } else {
+                MessegerHelper.alert("Chúng tôi đã gửi mã QR cho bạn, bạn có thể sử dụng mã này để đăng nhập lần sau", this);
+            }
+        }
+    }//GEN-LAST:event_mniTaoQRActionPerformed
 
     /**
      * @param args the command line arguments
@@ -761,6 +785,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniLuongNguoihoc;
     private javax.swing.JMenuItem mniNguoiHoc;
     private javax.swing.JMenuItem mniNhanVien;
+    private javax.swing.JMenuItem mniTaoQR;
     private javax.swing.JMenuItem mniThoat;
     private javax.swing.JMenuItem mniTiengViet;
     private javax.swing.JMenu mnuHeThong;

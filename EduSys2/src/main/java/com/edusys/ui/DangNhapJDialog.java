@@ -65,6 +65,8 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         lblQuenMK = new javax.swing.JLabel();
         pnlDangNhapButton = new javax.swing.JPanel();
         btnDangNhap = new javax.swing.JButton();
+        pnlDangNhapButton1 = new javax.swing.JPanel();
+        btnDangNhapByQR = new javax.swing.JButton();
         pnlRight = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         lblExit = new javax.swing.JLabel();
@@ -182,6 +184,26 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         pnlDangNhapButton.add(btnDangNhap);
 
         pnlLeft.add(pnlDangNhapButton);
+
+        pnlDangNhapButton1.setBackground(new java.awt.Color(153, 153, 153));
+        pnlDangNhapButton1.setPreferredSize(new java.awt.Dimension(400, 50));
+
+        btnDangNhapByQR.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnDangNhapByQR.setText("Đăng Nhập Bằng QR_CODE");
+        btnDangNhapByQR.setPreferredSize(new java.awt.Dimension(300, 40));
+        btnDangNhapByQR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangNhapByQRActionPerformed(evt);
+            }
+        });
+        btnDangNhapByQR.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnDangNhapByQRKeyPressed(evt);
+            }
+        });
+        pnlDangNhapButton1.add(btnDangNhapByQR);
+
+        pnlLeft.add(pnlDangNhapButton1);
 
         getContentPane().add(pnlLeft, java.awt.BorderLayout.LINE_START);
 
@@ -323,6 +345,14 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         new QuenMatKhauJDialog(null, true).setVisible(true);
     }//GEN-LAST:event_lblQuenMKMouseClicked
 
+    private void btnDangNhapByQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapByQRActionPerformed
+       new ReadQRCode(null, true, this).setVisible(true);
+    }//GEN-LAST:event_btnDangNhapByQRActionPerformed
+
+    private void btnDangNhapByQRKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDangNhapByQRKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDangNhapByQRKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -367,6 +397,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
+    private javax.swing.JButton btnDangNhapByQR;
     private javax.swing.JCheckBox chkGhiNhoTK;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
@@ -376,6 +407,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel lblTaiKhoan;
     private javax.swing.JPanel pnlContainer;
     private javax.swing.JPanel pnlDangNhapButton;
+    private javax.swing.JPanel pnlDangNhapButton1;
     private javax.swing.JPanel pnlHeader;
     private javax.swing.JPanel pnlLeft;
     private javax.swing.JPanel pnlMatKhau;
