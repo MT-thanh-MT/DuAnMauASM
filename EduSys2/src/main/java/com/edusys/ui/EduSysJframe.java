@@ -11,12 +11,21 @@ import com.edusys.utils.Auth;
 import com.edusys.utils.ImageHelper;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -43,6 +52,9 @@ public class EduSysJframe extends javax.swing.JFrame {
 
     public EduSysJframe() {
         initComponents();
+//        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//        this.setSize(screenSize.width, screenSize.height);
+//        setResizable(false);
         init();
     }
 
@@ -567,7 +579,7 @@ public class EduSysJframe extends javax.swing.JFrame {
         //Mở JDialog đổi mật khẩu
         this.doiMKJDialog.setTenDNtxt();
         openDoiMKJDialog();
-        
+
     }//GEN-LAST:event_btnDoiMatKhauActionPerformed
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
@@ -603,11 +615,11 @@ public class EduSysJframe extends javax.swing.JFrame {
     }//GEN-LAST:event_mniGioiThieuActionPerformed
 
     private void mniHuongDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniHuongDanActionPerformed
-
+            openHuongDanHtml();
     }//GEN-LAST:event_mniHuongDanActionPerformed
 
     private void btnHuongDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuongDanActionPerformed
-        // TODO add your handling code here:
+            openHuongDanHtml();
     }//GEN-LAST:event_btnHuongDanActionPerformed
 
     private void mniChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniChuyenDeActionPerformed
@@ -654,14 +666,22 @@ public class EduSysJframe extends javax.swing.JFrame {
         LanguageSelected.getSelected = 0;
         this.MainLg.changeLanguage(0);
         this.QLNVJPanel.QLNVchangeLanguge();
-        this.QLCDJPanel.QLNVchangeLanguge();
+        this.QLCDJPanel.QLCDchangeLanguge();
+        this.QLKHJPanel.QLKHchangeLanguge();
+        this.QLNHJPanel.QLNHchangeLanguge();
+        this.QLHVJPanel.QLHVchangeLanguge();
+        this.thongKeJPanel.ThongKechangeLanguge();
     }//GEN-LAST:event_mniTiengVietActionPerformed
 
     private void mniEnglishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniEnglishActionPerformed
         LanguageSelected.getSelected = 1;
         this.MainLg.changeLanguage(1);
         this.QLNVJPanel.QLNVchangeLanguge();
-        this.QLCDJPanel.QLNVchangeLanguge();
+        this.QLCDJPanel.QLCDchangeLanguge();
+        this.QLKHJPanel.QLKHchangeLanguge();
+        this.QLNHJPanel.QLNHchangeLanguge();
+        this.QLHVJPanel.QLHVchangeLanguge();
+        this.thongKeJPanel.ThongKechangeLanguge();
     }//GEN-LAST:event_mniEnglishActionPerformed
 
     /**
@@ -770,7 +790,7 @@ public class EduSysJframe extends javax.swing.JFrame {
 
         //set icon cho app
         this.setIconImage(ImageHelper.getAppIcon());
-        
+
         //hiệu ứng di chuột vào button mainForm
         mouseHover();
         //khai báo các cửa sổ và panel
@@ -792,8 +812,6 @@ public class EduSysJframe extends javax.swing.JFrame {
         openDangNhapJDialog();
         //hiển thị thời gian
         startDongHo();
-        //hiển thị tên người dùng
-        lblInfo.setText("Xin chào: "+Auth.nguoiDungHienTai.getHoTen());
 
         //add panel quản lý chuyên đề
         this.pnlCardQLChuyenDe.add(this.QLCDJPanel).repaint();
@@ -878,6 +896,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         //mở cửa sổ đăng nhập
         this.dangNhapJDialog.setVisible(true);
 
+        this.phanQuyenTruyCap();
+
     }
 
     private void openGioiThieuJDialog() {
@@ -909,7 +929,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     }
 
     private void openQLNguoiHoc() {
-        
+
         CardLayout layout = (CardLayout) pnlCards.getLayout();
 
         layout.show(pnlCards, "QLNguoiHoc");
@@ -925,6 +945,35 @@ public class EduSysJframe extends javax.swing.JFrame {
         CardLayout layout = (CardLayout) pnlCards.getLayout();
 
         layout.show(pnlCards, "ThongKe");
+        this.thongKeJPanel.isManager();
+    }
+
+    private void phanQuyenTruyCap() {
+        //hiển thị tên người dùng
+        lblInfo.setText("Xin chào: " + Auth.nguoiDungHienTai.getHoTen());
+        if (!Auth.isManager()) {
+            this.btnQLNhanVien.setEnabled(false);
+            this.btnQLChuyenDe.setEnabled(false);
+            this.mniDoanhThu.setEnabled(false);
+            this.mniChuyenDe.setEnabled(false);
+            this.mniNhanVien.setEnabled(false);
+        } else {
+            this.btnQLNhanVien.setEnabled(true);
+            this.btnQLChuyenDe.setEnabled(true);
+            this.mniDoanhThu.setEnabled(true);
+            this.mniChuyenDe.setEnabled(true);
+            this.mniNhanVien.setEnabled(true);
+        }
+    }
+
+    private void openHuongDanHtml() {
+        String path = ".\\web\\startbootstrap-full-width-pics-master\\dist\\index.html";
+        this.setAlwaysOnTop(false);
+        try {
+            Desktop.getDesktop().open(new File(path));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

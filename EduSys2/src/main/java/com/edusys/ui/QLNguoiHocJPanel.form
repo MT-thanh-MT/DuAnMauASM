@@ -435,7 +435,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="jPanel9">
+                    <Container class="javax.swing.JPanel" name="pnlGioiTinh">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="2c" green="28" red="22" type="rgb"/>
@@ -496,6 +496,9 @@
                             <Property name="selected" type="boolean" value="true"/>
                             <Property name="text" type="java.lang.String" value="Nam"/>
                           </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rdoNamActionPerformed"/>
+                          </Events>
                         </Component>
                         <Component class="javax.swing.JRadioButton" name="rdoNu">
                           <Properties>

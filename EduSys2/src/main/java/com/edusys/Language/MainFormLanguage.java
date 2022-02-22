@@ -5,6 +5,7 @@
  */
 package com.edusys.Language;
 
+import com.edusys.utils.Auth;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -103,7 +104,7 @@ public class MainFormLanguage {
                 this.btnQLNhanVien.setText("Quản lý nhân viên");
                 this.btnThongKe.setText("Thống Kê");
                 this.lblHomeTitle.setText("TRUNG TÂM ĐÀO TẠO TIN HỌC NGẮN HẠN");
-                this.lblInfo.setText("Hệ thống đào tạo");
+                this.lblInfo.setText("Xin chào: " + Auth.nguoiDungHienTai.getHoTen());
                 this.mniBangDiem.setText("Bảng điểm");
                 this.mniChuyenDe.setText("Chuyên đề");
                 this.mniDangXuat.setText("Đăng Xuất");
@@ -139,7 +140,7 @@ public class MainFormLanguage {
                 this.btnQLNhanVien.setText("Staff management");
                 this.btnThongKe.setText("Statistical");
                 this.lblHomeTitle.setText("SHORT-TERM INFORMATION TRAINING CENTER");
-                this.lblInfo.setText("Educational system");
+                this.lblInfo.setText("Hello: " + Auth.nguoiDungHienTai.getHoTen());
                 this.mniBangDiem.setText("Score-board");
                 this.mniChuyenDe.setText("Special subject");
                 this.mniDangXuat.setText("Logout");

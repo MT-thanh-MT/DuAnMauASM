@@ -596,7 +596,7 @@ public class QLChuyenDeJPanel extends javax.swing.JPanel {
         this.fileChooser = new JFileChooser();
     }
     
-    public void QLNVchangeLanguge() {
+    public void QLCDchangeLanguge() {
         this.lg.changeLanguage(LanguageSelected.getSelected);
     }
 
@@ -879,8 +879,8 @@ public class QLChuyenDeJPanel extends javax.swing.JPanel {
                 this.dtm.removeRow(index);
                 showForm(index > tblQLCD.getRowCount() - 1 ? tblQLCD.getRowCount() - 1 : index);
             } catch (Exception ex) {
-                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
-                ex.printStackTrace();
+                MessegerHelper.errorMesseger(new StringBuilder("Không thể xóa chuyên đề đang được sử dụng cho khóa học!"), this);
+//                ex.printStackTrace();
                 return true;
             }
         }

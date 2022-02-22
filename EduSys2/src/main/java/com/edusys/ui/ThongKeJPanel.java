@@ -5,17 +5,32 @@
  */
 package com.edusys.ui;
 
+import com.edusys.Language.LanguageSelected;
+import com.edusys.Language.ThongKeLanguage;
+import com.edusys.dao.KhoaHocDAO;
+import com.edusys.dao.ThongKeDAO;
+import com.edusys.entity.KhoaHoc;
+import com.edusys.utils.Auth;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author XUÂN THÀNH
  */
 public class ThongKeJPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ThongKeJPanel
-     */
+    private ThongKeDAO tkDao;
+    private KhoaHocDAO khDao;
+    private ThongKeLanguage lg;
+
     public ThongKeJPanel() {
         initComponents();
+
+        intit();
     }
 
     /**
@@ -78,7 +93,11 @@ public class ThongKeJPanel extends javax.swing.JPanel {
         lblKhoaHoc.setForeground(new java.awt.Color(255, 255, 255));
         lblKhoaHoc.setText("KHÓA HỌC:");
 
-        cbbKhoaHoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbKhoaHoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbKhoaHocItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlTimKiemKHLayout = new javax.swing.GroupLayout(pnlTimKiemKH);
         pnlTimKiemKH.setLayout(pnlTimKiemKHLayout);
@@ -183,7 +202,11 @@ public class ThongKeJPanel extends javax.swing.JPanel {
         lblNam.setForeground(new java.awt.Color(255, 255, 255));
         lblNam.setText("NĂM:");
 
-        cbbNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbNam.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbNamItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlTimKiemNamLayout = new javax.swing.GroupLayout(pnlTimKiemNam);
         pnlTimKiemNam.setLayout(pnlTimKiemNamLayout);
@@ -212,11 +235,11 @@ public class ThongKeJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "SỐ KH", "SỐ HV", "DOANH THU", "HP CAO NHẤT", "HP THẤP NHẤT", "HP TB"
+                "CHUYÊN ĐỀ", "SỐ KH", "SỐ HV", "DOANH THU", "HP CAO NHẤT", "HP THẤP NHẤT", "HP TB"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -255,6 +278,19 @@ public class ThongKeJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbbKhoaHocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbKhoaHocItemStateChanged
+        this.loadDataToTableBangDiem();
+        this.loadDataToTableDiemChuyenDe();
+        this.loadDataToTableNguoiHoc();
+
+    }//GEN-LAST:event_cbbKhoaHocItemStateChanged
+
+    private void cbbNamItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbNamItemStateChanged
+        this.loadDataToTableDoanhThu();
+        this.loadDataToTableDiemChuyenDe();
+        this.loadDataToTableNguoiHoc();
+    }//GEN-LAST:event_cbbNamItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbbKhoaHoc;
@@ -281,16 +317,133 @@ public class ThongKeJPanel extends javax.swing.JPanel {
     private javax.swing.JTable tblNguoiHoc;
     // End of variables declaration//GEN-END:variables
 
-    public void showBangDiem(){
+    public void showBangDiem() {
         this.pnlTabs.setSelectedComponent(this.pnlBangDiem);
     }
-    public void showDiemChuyenDe(){
+
+    public void showDiemChuyenDe() {
         this.pnlTabs.setSelectedComponent(this.pnlDiemCD);
     }
-    public void showNguoiHoc(){
+
+    public void showNguoiHoc() {
         this.pnlTabs.setSelectedComponent(this.pnlNguoiHoc);
     }
-    public void showDoanhThu(){
+
+    public void showDoanhThu() {
         this.pnlTabs.setSelectedComponent(this.pnlDoanhThu);
+    }
+    
+    public void isManager(){
+        if (!Auth.isManager()){
+            this.pnlTabs.setEnabledAt(3, false);
+        }else {
+            this.pnlTabs.setEnabledAt(3, true);
+        }
+    }
+
+    private void intit() {
+        this.khDao = new KhoaHocDAO();
+        this.tkDao = new ThongKeDAO();
+        this.lg = new ThongKeLanguage(lblKhoaHoc, lblNam, lblThongKe, pnlTimKiemKH, pnlTimKiemNam, tblBangDiem, tblDiemChuyenDe, tblDoanhThu, tblNguoiHoc, pnlTabs);
+        
+        this.loadDataToCBBKH();
+        this.loadDataToCBBNam();
+        this.loadDataToTableBangDiem();
+        this.loadDataToTableDiemChuyenDe();
+        this.loadDataToTableNguoiHoc();
+        this.loadDataToTableDoanhThu();
+//        isManager();
+    }
+    
+    public void ThongKechangeLanguge() {
+        this.lg.changeLanguage(LanguageSelected.getSelected);
+    }
+
+    private void loadDataToTableBangDiem() {
+        DefaultTableModel model = (DefaultTableModel) tblBangDiem.getModel();
+        model.setRowCount(0);
+        KhoaHoc kh = (KhoaHoc) cbbKhoaHoc.getSelectedItem();
+        List<Object[]> list = tkDao.getBangDiem(kh.getMaKH());
+        for (Object[] row : list) {
+            double diem = (double) row[2];
+            model.addRow(new Object[]{
+                row[0],
+                row[1],
+                diem,
+                getXepLoai(diem)
+            });
+        }
+
+    }
+
+    private void loadDataToTableDiemChuyenDe() {
+        DefaultTableModel model = (DefaultTableModel) tblDiemChuyenDe.getModel();
+        model.setRowCount(0);
+        List<Object[]> list = tkDao.getDiemChuyenDe();
+        for (Object[] row : list) {
+            String DTB = String.format("%.2f", row[4]);
+            model.addRow(new Object[]{row[0], row[1], row[2], row[3], DTB});
+
+        }
+    }
+
+    private void loadDataToTableNguoiHoc() {
+        DefaultTableModel model = (DefaultTableModel) tblNguoiHoc.getModel();
+        model.setRowCount(0);
+        List<Object[]> list = tkDao.getLuongNguoiHoc();
+        for (Object[] row : list) {
+            model.addRow(row);
+        }
+    }
+
+    private void loadDataToTableDoanhThu() {
+        DefaultTableModel model = (DefaultTableModel) tblDoanhThu.getModel();
+        model.setRowCount(0);
+        int nam = (Integer) cbbNam.getSelectedItem();
+        List<Object[]> list = tkDao.getDoanhThu(nam);
+        for (Object[] row : list) {
+            model.addRow(row);
+        }
+    }
+
+    private void loadDataToCBBNam() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbNam.getModel();
+        model.removeAllElements();
+        List<Integer> list = tkDao.selectYears();
+        for (Integer year : list) {
+            model.addElement(year);
+
+        }
+    }
+
+    private void loadDataToCBBKH() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cbbKhoaHoc.getModel();
+        model.removeAllElements();
+        List<KhoaHoc> list;
+        try {
+            list = khDao.selectALL();
+            for (KhoaHoc kh : list) {
+                model.addElement(kh);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ThongKeJPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private String getXepLoai(double diem) {
+        if (diem < 5) {
+            return "Chưa đạt";
+        }
+        if (diem < 6.5) {
+            return "Trung bình";
+        }
+        if (diem < 7.5) {
+            return "Khá";
+        }
+        if (diem < 9) {
+            return "Giỏi";
+        }
+        return "Xuất sắc";
     }
 }

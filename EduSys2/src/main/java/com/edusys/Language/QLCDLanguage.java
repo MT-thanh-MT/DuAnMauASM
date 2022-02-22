@@ -46,6 +46,7 @@ public class QLCDLanguage {
         this.tblQLCD = tblQLCD;
     }
 
+
     public void changeLanguage(int choice) {
         switch (choice) {
             case 0:

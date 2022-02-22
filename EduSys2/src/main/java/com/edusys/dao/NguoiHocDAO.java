@@ -30,6 +30,8 @@ public class NguoiHocDAO extends BaseDao<NguoiHoc, String> {
                 return "SELECT * FROM NGUOIHOC WHERE  HoTen like ?";
             case "SELECTALL":
                 return "SELECT * FROM NGUOIHOC";
+            case "SELECT_NOT_IN_COURSE":
+                return "SELECT * FROM NGUOIHOC WHERE  HoTen like ? AND MaNH NOT IN (SELECT MaNH FROM HOCVIEN WHERE MaKH = ?)";
         }
         return "";
     }

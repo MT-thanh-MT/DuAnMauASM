@@ -7,6 +7,7 @@ package com.edusys.ui;
 
 import com.edusys.Interface.BaseDAOInterface;
 import com.edusys.Language.LanguageSelected;
+import com.edusys.Language.QLNHLanguage;
 import com.edusys.dao.NguoiHocDAO;
 import com.edusys.entity.NguoiHoc;
 import com.edusys.utils.Auth;
@@ -28,7 +29,7 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
     private DefaultTableModel dtm;
     private BaseDAOInterface dao;
     private int index;
-
+    private QLNHLanguage lg;
     public QLNguoiHocJPanel() {
         initComponents();
 
@@ -66,7 +67,7 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         txtEmail = new javax.swing.JTextField();
         lblEmail = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
+        pnlGioiTinh = new javax.swing.JPanel();
         rdoNam = new javax.swing.JRadioButton();
         rdoNu = new javax.swing.JRadioButton();
         pnlButton = new javax.swing.JPanel();
@@ -261,8 +262,8 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
 
         jPanel2.add(jPanel7);
 
-        jPanel9.setBackground(new java.awt.Color(34, 40, 44));
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Giới tính", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        pnlGioiTinh.setBackground(new java.awt.Color(34, 40, 44));
+        pnlGioiTinh.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1), "Giới tính", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         rdoNam.setBackground(new java.awt.Color(34, 40, 44));
         buttonGroup1.add(rdoNam);
@@ -270,6 +271,11 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
         rdoNam.setForeground(new java.awt.Color(255, 255, 255));
         rdoNam.setSelected(true);
         rdoNam.setText("Nam");
+        rdoNam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoNamActionPerformed(evt);
+            }
+        });
 
         rdoNu.setBackground(new java.awt.Color(34, 40, 44));
         buttonGroup1.add(rdoNu);
@@ -277,28 +283,28 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
         rdoNu.setForeground(new java.awt.Color(255, 255, 255));
         rdoNu.setText("Nữ");
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlGioiTinhLayout = new javax.swing.GroupLayout(pnlGioiTinh);
+        pnlGioiTinh.setLayout(pnlGioiTinhLayout);
+        pnlGioiTinhLayout.setHorizontalGroup(
+            pnlGioiTinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlGioiTinhLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(rdoNam)
                 .addGap(33, 33, 33)
                 .addComponent(rdoNu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(260, Short.MAX_VALUE))
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        pnlGioiTinhLayout.setVerticalGroup(
+            pnlGioiTinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlGioiTinhLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlGioiTinhLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdoNam)
                     .addComponent(rdoNu))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.add(jPanel9);
+        jPanel2.add(pnlGioiTinh);
 
         pnlQLNHInput.add(jPanel2);
 
@@ -578,7 +584,7 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnMoiActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        if (xoaChuyenDe())
+        if (xoaNguoiHoc())
             return;
     }//GEN-LAST:event_btnXoaActionPerformed
 
@@ -642,6 +648,10 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btnTimKiemTheoTenActionPerformed
 
+    private void rdoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdoNamActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFirst;
     private javax.swing.JButton btnLast;
@@ -664,7 +674,6 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblEmail;
@@ -676,6 +685,7 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel pnlButton;
     private javax.swing.JPanel pnlCardQLNguoiHoc;
     private javax.swing.JPanel pnlGhiChu;
+    private javax.swing.JPanel pnlGioiTinh;
     private javax.swing.JPanel pnlQLNH;
     private javax.swing.JPanel pnlQLNHInput;
     private javax.swing.JPanel pnlTimKiem;
@@ -692,7 +702,9 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void init() {
-
+        //khai báo lớp hỗ trợ ngôn ngữ
+        this.lg = new QLNHLanguage(btnMoi, btnSua, btnThem, btnXoa, btnTimKiemTatCa, btnTimKiemTheoMa, btnTimKiemTheoTen, lblEmail, lblHoTen, lblMaNH, lblNgaySinh, lblSDT, lblQLNguoiHocTitle, rdoNam, rdoNu, pnlGhiChu, pnlTimKiem, pnlGioiTinh, tblNguoiHoc);
+        
         //Khai báo lớp dao
         this.dao = new NguoiHocDAO();
 
@@ -702,7 +714,10 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
         //Load dữ liệu lên bảng
         LoadDataToTable();
     }
-
+    
+    public void QLNHchangeLanguge() {
+        this.lg.changeLanguage(LanguageSelected.getSelected);
+    }
     public void LoadDataToTable() {
         //load dữ liệu từ cơ sở dữ liệu vào bảng
         this.dtm.setRowCount(0);
@@ -976,10 +991,10 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
         return maNH;
     }
 
-    private boolean xoaChuyenDe() {
+    private boolean xoaNguoiHoc() {
         String maNH = txtMaNH.getText();
         maNH = nhapMaNH(maNH);
-        if (MessegerHelper.confirm(this, "Bạn có muốn xóa chuyên đề " + maNH + " này không?")) {
+        if (MessegerHelper.confirm(this, "Bạn có muốn xóa Người Học: " + maNH + " này không?")) {
             try {
                 this.dao.delete(maNH);
                 MessegerHelper.alert("Xóa thành công", this);
@@ -991,8 +1006,8 @@ public class QLNguoiHocJPanel extends javax.swing.JPanel {
                 this.dtm.removeRow(index);
                 showForm(index > tblNguoiHoc.getRowCount() - 1 ? tblNguoiHoc.getRowCount() - 1 : index);
             } catch (Exception ex) {
-                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
-                ex.printStackTrace();
+                MessegerHelper.errorMesseger(new StringBuilder("Không Thể Xóa Người Học Đang Là Học Viên!"), this);
+//                ex.printStackTrace();
                 return true;
             }
         }

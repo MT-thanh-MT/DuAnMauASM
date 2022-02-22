@@ -5,17 +5,47 @@
  */
 package com.edusys.ui;
 
+import com.edusys.Language.LanguageSelected;
+import com.edusys.Language.QLCDLanguage;
+import com.edusys.Language.QLHVLanguage;
+import com.edusys.dao.ChuyenDeDAO;
+import com.edusys.dao.HocVienDAO;
+import com.edusys.dao.KhoaHocDAO;
+import com.edusys.dao.NguoiHocDAO;
+import com.edusys.entity.ChuyenDe;
+import com.edusys.entity.HocVien;
+import com.edusys.entity.KhoaHoc;
+import com.edusys.entity.NguoiHoc;
+import com.edusys.utils.Auth;
+import com.edusys.utils.DateHelper;
+import com.edusys.utils.MessegerHelper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author XUÂN THÀNH
  */
 public class QLHocVienJPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form QLHocVienJPanel
-     */
+    private DefaultComboBoxModel<ChuyenDe> modelCD;
+    private DefaultComboBoxModel<KhoaHoc> modelKH;
+    private DefaultTableModel dtmHV;
+    private DefaultTableModel dtmNH;
+    private ChuyenDeDAO cdDAO;
+    private KhoaHocDAO khDAO;
+    private NguoiHocDAO nhDAO;
+    private HocVienDAO hvDAO;
+    private QLHVLanguage lg;
+
     public QLHocVienJPanel() {
         initComponents();
+
+        init();
     }
 
     /**
@@ -44,7 +74,7 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHocVien = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
+        pnlTimKiem = new javax.swing.JPanel();
         txtTimKiem = new javax.swing.JTextField();
         btnTimKiem = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -73,7 +103,11 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         pnlCD.setBackground(new java.awt.Color(34, 40, 44));
         pnlCD.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED), "CHUYÊN ĐỀ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14), new java.awt.Color(255, 102, 102))); // NOI18N
 
-        cbbChuyenDe_QLHV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbChuyenDe_QLHV.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbChuyenDe_QLHVItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlCDLayout = new javax.swing.GroupLayout(pnlCD);
         pnlCD.setLayout(pnlCDLayout);
@@ -89,7 +123,7 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
             .addGroup(pnlCDLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cbbChuyenDe_QLHV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jPanel6.add(pnlCD);
@@ -97,7 +131,11 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         pnlKH.setBackground(new java.awt.Color(34, 40, 44));
         pnlKH.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED), "KHÓA HỌC", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14), new java.awt.Color(255, 102, 102))); // NOI18N
 
-        cbbKhoaHoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbbKhoaHoc.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbbKhoaHocItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlKHLayout = new javax.swing.GroupLayout(pnlKH);
         pnlKH.setLayout(pnlKHLayout);
@@ -113,7 +151,7 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
             .addGroup(pnlKHLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(cbbKhoaHoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jPanel6.add(pnlKH);
@@ -135,9 +173,19 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnXoaHV.setText("Xóa khỏi khóa học");
+        btnXoaHV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaHVActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnXoaHV);
 
         btnSuaDiem.setText("Cập nhật điểm");
+        btnSuaDiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaDiemActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnSuaDiem);
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_END);
@@ -151,11 +199,16 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblHocVien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHocVienMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblHocVien);
@@ -167,39 +220,49 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(34, 40, 44));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
-        jPanel4.setBackground(new java.awt.Color(34, 40, 44));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TÌM KIẾM", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
-        jPanel4.setPreferredSize(new java.awt.Dimension(898, 75));
+        pnlTimKiem.setBackground(new java.awt.Color(34, 40, 44));
+        pnlTimKiem.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TÌM KIẾM", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.BELOW_TOP, new java.awt.Font("Arial", 1, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        pnlTimKiem.setPreferredSize(new java.awt.Dimension(898, 75));
 
         btnTimKiem.setText("Tìm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlTimKiemLayout = new javax.swing.GroupLayout(pnlTimKiem);
+        pnlTimKiem.setLayout(pnlTimKiemLayout);
+        pnlTimKiemLayout.setHorizontalGroup(
+            pnlTimKiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTimKiemLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txtTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
                 .addGap(39, 39, 39)
                 .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        pnlTimKiemLayout.setVerticalGroup(
+            pnlTimKiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTimKiemLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlTimKiemLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtTimKiem)
                     .addComponent(btnTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_START);
+        jPanel2.add(pnlTimKiem, java.awt.BorderLayout.PAGE_START);
 
         jPanel5.setBackground(new java.awt.Color(34, 40, 44));
         jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
         btnThemVaoKH.setText("Thêm vào khóa học");
+        btnThemVaoKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemVaoKHActionPerformed(evt);
+            }
+        });
         jPanel5.add(btnThemVaoKH);
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.PAGE_END);
@@ -218,6 +281,11 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblNguoiHoc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblNguoiHocMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblNguoiHoc);
@@ -252,6 +320,47 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbbChuyenDe_QLHVItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbChuyenDe_QLHVItemStateChanged
+        this.loadDataToCBBKhoaHoc();
+
+        upDateStatus();
+    }//GEN-LAST:event_cbbChuyenDe_QLHVItemStateChanged
+
+    private void cbbKhoaHocItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbKhoaHocItemStateChanged
+        this.loadDataToTableHocVien();
+
+        upDateStatus();
+    }//GEN-LAST:event_cbbKhoaHocItemStateChanged
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        this.loadDataToTableNguoiHoc();
+
+        upDateStatus();
+    }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void btnThemVaoKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVaoKHActionPerformed
+        if (themVaoKhoaHoc()) {
+            return;
+        }
+    }//GEN-LAST:event_btnThemVaoKHActionPerformed
+
+    private void btnXoaHVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaHVActionPerformed
+        xoaHocVien();
+    }//GEN-LAST:event_btnXoaHVActionPerformed
+
+    private void btnSuaDiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaDiemActionPerformed
+        if (suaDiem()) {
+            return;
+        }
+    }//GEN-LAST:event_btnSuaDiemActionPerformed
+
+    private void tblHocVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHocVienMouseClicked
+        upDateStatus();
+    }//GEN-LAST:event_tblHocVienMouseClicked
+
+    private void tblNguoiHocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNguoiHocMouseClicked
+        upDateStatus();
+    }//GEN-LAST:event_tblNguoiHocMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSuaDiem;
@@ -263,7 +372,6 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
@@ -275,8 +383,195 @@ public class QLHocVienJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel pnlQLHVBottom;
     private javax.swing.JPanel pnlQLHVTop;
     private javax.swing.JTabbedPane pnlTabs;
+    private javax.swing.JPanel pnlTimKiem;
     private javax.swing.JTable tblHocVien;
     private javax.swing.JTable tblNguoiHoc;
     private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
+
+    private void init() {
+        //khai báo lớp hỗ trợ language
+        this.lg = new QLHVLanguage(btnSuaDiem, btnThemVaoKH, btnTimKiem, btnXoaHV, lblQLHocVienTitle, pnlTabs, pnlTimKiem, pnlCD, pnlKH, tblHocVien, tblNguoiHoc);
+        
+        // khai báo các lớp DAO
+        this.cdDAO = new ChuyenDeDAO();
+        this.khDAO = new KhoaHocDAO();
+        this.nhDAO = new NguoiHocDAO();
+        this.hvDAO = new HocVienDAO();
+
+        // khai báo các model combobox và table
+        this.modelCD = (DefaultComboBoxModel) cbbChuyenDe_QLHV.getModel();
+        this.modelKH = (DefaultComboBoxModel) cbbKhoaHoc.getModel();
+        this.dtmNH = (DefaultTableModel) tblNguoiHoc.getModel();
+        this.dtmHV = (DefaultTableModel) tblHocVien.getModel();
+
+        //đổ dữ liệu lên cbb chuyên đề
+        this.loadDataToCBBChuyenDe();
+    }
+    
+    public void QLHVchangeLanguge() {
+        this.lg.changeLanguage(LanguageSelected.getSelected);
+    }
+
+    private void loadDataToCBBChuyenDe() {
+        this.modelCD.removeAllElements();
+        List<ChuyenDe> list = null;
+        try {
+            list = cdDAO.selectALL();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        for (ChuyenDe cd : list) {
+            modelCD.addElement(cd);
+        }
+        this.loadDataToCBBKhoaHoc();
+    }
+
+    private void loadDataToCBBKhoaHoc() {
+        modelKH.removeAllElements();
+        ArrayList<KhoaHoc> listKH = new ArrayList<>();
+        ChuyenDe cd = (ChuyenDe) cbbChuyenDe_QLHV.getSelectedItem();
+        if (cd != null) {
+            try {
+                listKH = this.khDAO.selectByQuery("SELECTBYMACD", cd.getMaCD());
+                for (KhoaHoc kh : listKH) {
+                    modelKH.addElement(kh);
+                }
+                this.loadDataToTableHocVien();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private void loadDataToTableHocVien() {
+        this.dtmHV.setRowCount(0);
+        KhoaHoc kh = (KhoaHoc) cbbKhoaHoc.getSelectedItem();
+        if (kh != null) {
+            try {
+                List<HocVien> list = hvDAO.selectByQuery("SELECT_BY_KHOAHOC", kh.getMaKH());
+                if (list.size() > 0) {
+                    for (int i = 0; i < list.size(); i++) {
+                        HocVien hv = list.get(i);
+                        String hoten = nhDAO.selectByID(hv.getMaNH()).getHoTen();
+                        dtmHV.addRow(new Object[]{
+                            i + 1,
+                            hv.getMaHV(),
+                            hv.getMaNH(),
+                            hoten,
+                            hv.getDiem()
+                        });
+                    }
+                }
+                this.loadDataToTableNguoiHoc();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+
+    }
+
+    private void loadDataToTableNguoiHoc() {
+        this.dtmNH.setRowCount(0);
+        KhoaHoc kh = (KhoaHoc) cbbKhoaHoc.getSelectedItem();
+
+        String keyword = "%" + txtTimKiem.getText() + "%";
+        try {
+            ArrayList<NguoiHoc> list = nhDAO.selectByQuery("SELECT_NOT_IN_COURSE", keyword, kh.getMaKH());
+            for (NguoiHoc nh : list) {
+                String gt;
+                if (LanguageSelected.getSelected == 0) {
+                    gt = nh.isGioiTinh() ? "Nam" : "Nữ";
+                } else {
+                    gt = nh.isGioiTinh() ? "Male" : "Female";
+                }
+                this.dtmNH.addRow(new Object[]{
+                    nh.getMaNH().trim(),
+                    nh.getHoTen(),
+                    gt,
+                    DateHelper.toString(nh.getNgaySinh(), "dd/MM/yyyy"),
+                    nh.getDienThoai(),
+                    nh.getEmail(),});
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private boolean themVaoKhoaHoc() {
+        KhoaHoc kh = (KhoaHoc) cbbKhoaHoc.getSelectedItem();
+        int[] rows = tblNguoiHoc.getSelectedRows();
+        for (int row : rows) {
+            String maNH = (String) tblNguoiHoc.getValueAt(row, 0);
+            HocVien hv = new HocVien();
+            hv.setDiem(0);
+            hv.setMaKH(kh.getMaKH());
+            hv.setMaNH(maNH);
+            try {
+                hvDAO.insert(hv);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn"), this);
+                return true;
+            }
+        }
+        this.loadDataToTableHocVien();
+        this.pnlTabs.setSelectedIndex(0);
+        return false;
+    }
+
+    private void upDateStatus() {
+        int hv = this.tblHocVien.getSelectedRow();
+        int nh = this.tblNguoiHoc.getSelectedRow();
+        this.btnSuaDiem.setEnabled(hv > -1);
+        this.btnXoaHV.setEnabled(hv > -1);
+        this.btnThemVaoKH.setEnabled(nh > -1);
+    }
+
+    private void xoaHocVien() {
+        if (!Auth.isManager()) {
+            MessegerHelper.errorMesseger(new StringBuilder("Bạn không có quyền xóa học viên!"), this);
+        } else {
+            int[] rows = tblHocVien.getSelectedRows();
+            if (rows.length > 0 && MessegerHelper.confirm(this, "Bạn có muốn xóa các học viên đã chọn không?")) {
+                for (int row : rows) {
+                    int maHV = (Integer) tblHocVien.getValueAt(row, 1);
+                    try {
+                        hvDAO.delete(maHV);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
+                        return;
+                    }
+                }
+                MessegerHelper.alert("Xóa học viên thành công!", this);
+                this.loadDataToTableHocVien();
+                upDateStatus();
+            }
+        }
+    }
+
+    private boolean suaDiem() throws NumberFormatException {
+        for (int i = 0; i < tblHocVien.getRowCount(); i++) {
+            int maHV = Integer.parseInt(tblHocVien.getValueAt(i, 1).toString());
+            float diem = Float.parseFloat(tblHocVien.getValueAt(i, 4).toString());
+            if (diem < 0 || diem > 10) {
+                MessegerHelper.errorMesseger(new StringBuilder("Điểm phải nhỏ hơn 10 và phải lớn hơn 0!"), this);
+                this.tblHocVien.setRowSelectionInterval(i, i);
+                return true;
+            }
+            try {
+                HocVien hv = hvDAO.selectByID(maHV);
+                hv.setDiem(diem);
+                hvDAO.update(hv);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
+                return true;
+            }
+        }
+        MessegerHelper.alert("Cập nhật điểm thành công!", this);
+        return false;
+    }
+
 }

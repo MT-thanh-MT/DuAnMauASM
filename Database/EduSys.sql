@@ -143,9 +143,20 @@ UPDATE NGUOIHOC SET HoTen = ?, NgaySinh = ?, GioiTinh = ?, DienThoai = ?, Email 
 DELETE FROM NGUOIHOC WHERE MaNH = ?
 
 SELECT * FROM NGUOIHOC WHERE  HoTen like ?
+SELECT * FROM NGUOIHOC WHERE  HoTen like N'%%' AND MaNH NOT IN (SELECT MaNH FROM HOCVIEN WHERE MaKH=8)
+
 
 --Khóa học
-SELECT * FROM KHOAHOC WHERE MaCD = N'C1'
+SELECT * FROM KHOAHOC WHERE MaCD = N'C#1'
 INSERT INTO KHOAHOC (MaKH, MaCD, HocPhi, ThoiLuong, NgayKG, GhiChu, MaNV, NgayTao) VALUES (?,?,?,?,?,?,?,?)
 UPDATE KHOAHOC SET MaCD = ?, HocPhi = ?, ThoiLuong = ?, NgayKG = ?, GhiChu = ?, MaNV = ?, NgayTao = ? WHERE MaKH = ?
 DELETE FROM KHOAHOC WHERE MaKH = ?
+
+--Học viên
+SELECT * FROM HOCVIEN WHERE MaKH = ?
+INSERT INTO HOCVIEN (MaKH, MaNH, Diem) VALUES (?,?,?)
+UPDATE HOCVIEN SET MaKH = ?, MaNH = ?, Diem =? WHERE  MaHV = ?
+DELETE FROM HOCVIEN WHERE  MaHV = 6
+
+--thống kê
+SELECT DISTINCT year(NgayKG) FROM KhoaHoc ORDER BY Year(NgayKG) DESC

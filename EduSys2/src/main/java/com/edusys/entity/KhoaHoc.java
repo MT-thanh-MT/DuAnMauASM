@@ -110,4 +110,9 @@ public class KhoaHoc {
         this.ngayTao = ngayTao;
     }
 
+    @Override
+    public String toString() {
+        return  maCD+"("+ngayKG+")";
+    }
+
 }

@@ -905,7 +905,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
                 this.dtm.removeRow(index);
                 showForm(0);
             } catch (Exception ex) {
-                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
+                MessegerHelper.errorMesseger(new StringBuilder("Không thể xóa nhân viên đang quản lý các học viên và khóa học!"), this);
                 ex.printStackTrace();
                 return true;
             }

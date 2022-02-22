@@ -5,6 +5,8 @@
  */
 package com.edusys.ui;
 
+import com.edusys.Language.LanguageSelected;
+import com.edusys.Language.QLKHLanguage;
 import com.edusys.dao.ChuyenDeDAO;
 import com.edusys.dao.KhoaHocDAO;
 import com.edusys.entity.ChuyenDe;
@@ -12,11 +14,8 @@ import com.edusys.entity.KhoaHoc;
 import com.edusys.utils.Auth;
 import com.edusys.utils.DateHelper;
 import com.edusys.utils.MessegerHelper;
-import com.sun.mail.imap.ACL;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,12 +25,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QLKhoaHocJPanel extends javax.swing.JPanel {
 
-    private DefaultComboBoxModel<ChuyenDe> dcbm;
+//    private DefaultComboBoxModel<ChuyenDe> dcbm;
     private DefaultTableModel dtm;
     private ChuyenDeDAO cddao;
     private KhoaHocDAO khdao;
     private int index;
-
+    private QLKHLanguage lg;
+    
     public QLKhoaHocJPanel() {
         initComponents();
 
@@ -450,7 +450,7 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "MÃ KH", "THỜI LƯỢNG", "HỌC PHÍ", "Khai Giảng", "TẠO BỞI", "NGÀY TẠO", "GHICHU"
+                "MÃ KH", "THỜI LƯỢNG", "HỌC PHÍ", "KHAI GIẢNG", "TẠO BỞI", "NGÀY TẠO", "GHICHU"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -561,6 +561,9 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
 
     private void cbbChuyenDeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbChuyenDeItemStateChanged
         ChuyenDe cd = (ChuyenDe) cbbChuyenDe.getSelectedItem();
+        if (cd == null) {
+            this.loadDataToCBB();
+        }
         this.txtTenCD.setText(cd.getTenCD());
         this.txtHocPhi.setText(cd.getHocPhi() + "");
         this.txtThoiLuong.setText(cd.getThoiLuong() + "");
@@ -577,7 +580,10 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
     private void btnLoadCDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadCDActionPerformed
         this.loadDataToCBB();
         ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
-        loadDataToTable(cd.getMaCD());
+        if (cd == null) {
+            this.loadDataToCBB();
+        }
+//        loadDataToTable(cd.getMaCD());
     }//GEN-LAST:event_btnLoadCDActionPerformed
 
     private void tblKhoaHocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhoaHocMouseClicked
@@ -606,66 +612,19 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnMoiActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
-        if (checkForm()) {
+        if (them())
             return;
-        }
-
-        try {
-            this.khdao.insert(getForm());
-            MessegerHelper.alert("Thêm thành công", this);
-            this.loadDataToTable(cd.getMaCD());
-            this.index = tblKhoaHoc.getRowCount() - 1;
-            this.tblKhoaHoc.setRowSelectionInterval(index, index);
-            showForm(index);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn"), this);
-            return;
-        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        if (checkForm()) {
+        if (sua())
             return;
-        }
-        KhoaHoc kh = getForm();
-        kh.setMaKH((int) this.tblKhoaHoc.getValueAt(index, 0));
-
-        if (MessegerHelper.confirm(this, "Bạn có muốn sửa khóa học có mã " + kh.getMaKH() + " không?")) {
-            try {
-                this.khdao.update(kh);
-                MessegerHelper.alert("Sửa thành công", this);
-                this.tblKhoaHoc.setValueAt(kh.getThoiLuong(), index, 1);
-                this.tblKhoaHoc.setValueAt(kh.getHocPhi(), index, 2);
-                this.tblKhoaHoc.setValueAt(DateHelper.toString(kh.getNgayKG(), "dd/MM/yyyy"), index, 3);
-                this.tblKhoaHoc.setValueAt(kh.getMaNV(), index, 4);
-                this.tblKhoaHoc.setValueAt(DateHelper.toString(kh.getNgayTao(), "dd/MM/yyyy"), index, 5);
-                this.tblKhoaHoc.setValueAt(kh.getGhiChu(), index, 6);
-            } catch (Exception e) {
-                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
-                e.printStackTrace();
-                return;
-            }
-        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-       int makh = (int) this.tblKhoaHoc.getValueAt(index, 0);
-        if (MessegerHelper.confirm(this, "Bạn có muốn xóa khóa học có mã: " + makh + " này không?")) {
-            try {
-                this.khdao.delete(makh);
-                MessegerHelper.alert("Xóa thành công", this);
-                this.dtm.removeRow(index);
-                showForm(index > tblKhoaHoc.getRowCount() - 1 ? tblKhoaHoc.getRowCount() - 1 : index);
-            } catch (Exception ex) {
-                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
-                ex.printStackTrace();
-                return;
-            }
-        }
+        if (xoa())
+            return;
     }//GEN-LAST:event_btnXoaActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFirst;
@@ -716,12 +675,14 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void init() {
+        //khai báo lớp chuyển ngôn ngữ
+        this.lg = new QLKHLanguage(btnSua, btnThem, btnXoa, btnMoi, lblHocPhi, lblNgayKG, lblNgayTao, lblQLKhoaHocTitle, lblTenCD, lblTenNguoiTao, lblThoiLuong, pnlChuyenDe, pnlGhiChu, tblKhoaHoc);
         //khai báo chuyên đề dao
         this.cddao = new ChuyenDeDAO();
         //khai báo khóa học dao
         this.khdao = new KhoaHocDAO();
 
-        this.dcbm = (DefaultComboBoxModel) this.cbbChuyenDe.getModel();
+//        this.dcbm = (DefaultComboBoxModel) this.cbbChuyenDe.getModel();
         this.dtm = (DefaultTableModel) this.tblKhoaHoc.getModel();
 
         //load dữ liệu lên combobox chuyên đề
@@ -730,16 +691,21 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
         loadDataToTable(cd.getMaCD());
     }
+    
+    public void QLKHchangeLanguge() {
+        this.lg.changeLanguage(LanguageSelected.getSelected);
+    }
 
     public void loadDataToCBB() {
+        DefaultComboBoxModel<ChuyenDe> dcbm = (DefaultComboBoxModel) this.cbbChuyenDe.getModel();
         ArrayList<ChuyenDe> listCD = new ArrayList<>();
-        this.dcbm.removeAllElements();
+        dcbm.removeAllElements();
         this.cbbChuyenDe.removeAllItems();
         try {
 //        this.dcbm = (DefaultComboBoxModel)this.cbbChuyenDe.getModel();
             listCD = this.cddao.selectALL();
             for (ChuyenDe cd : listCD) {
-                this.dcbm.addElement(cd);
+                dcbm.addElement(cd);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -868,10 +834,10 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         } else {
             try {
                 Date nkg = DateHelper.toDate(txtNgayKG.getText(), "dd/MM/yyyy");
-                Date now = new Date();
-                if (nkg.before(now)) {
-                    loi.append("Ngày khai giảng phải là ngày sau hiện tại");
-                }
+//                Date now = new Date();
+//                if (nkg.before(now)) {
+//                    loi.append("Ngày khai giảng phải là ngày sau hiện tại");
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
                 loi.append("Sai định dạng(dd/MM/yyyy)");
@@ -884,4 +850,67 @@ public class QLKhoaHocJPanel extends javax.swing.JPanel {
         }
         return false;
     }
+
+    private boolean them() {
+        ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
+        if (checkForm()) {
+            return true;
+        }
+        try {
+            this.khdao.insert(getForm());
+            MessegerHelper.alert("Thêm thành công", this);
+            this.loadDataToTable(cd.getMaCD());
+            this.index = tblKhoaHoc.getRowCount() - 1;
+            this.tblKhoaHoc.setRowSelectionInterval(index, index);
+            showForm(index);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn"), this);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean sua() {
+        if (checkForm()) {
+            return true;
+        }
+        KhoaHoc kh = getForm();
+        kh.setMaKH((int) this.tblKhoaHoc.getValueAt(index, 0));
+        if (MessegerHelper.confirm(this, "Bạn có muốn sửa khóa học có mã " + kh.getMaKH() + " không?")) {
+            try {
+                this.khdao.update(kh);
+                MessegerHelper.alert("Sửa thành công", this);
+                this.tblKhoaHoc.setValueAt(kh.getThoiLuong(), index, 1);
+                this.tblKhoaHoc.setValueAt(kh.getHocPhi(), index, 2);
+                this.tblKhoaHoc.setValueAt(DateHelper.toString(kh.getNgayKG(), "dd/MM/yyyy"), index, 3);
+                this.tblKhoaHoc.setValueAt(kh.getMaNV(), index, 4);
+                this.tblKhoaHoc.setValueAt(DateHelper.toString(kh.getNgayTao(), "dd/MM/yyyy"), index, 5);
+                this.tblKhoaHoc.setValueAt(kh.getGhiChu(), index, 6);
+            } catch (Exception e) {
+                MessegerHelper.errorMesseger(new StringBuilder("Lỗi truy vấn!"), this);
+                e.printStackTrace();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean xoa() {
+        int makh = (int) this.tblKhoaHoc.getValueAt(index, 0);
+        if (MessegerHelper.confirm(this, "Bạn có muốn xóa khóa học có mã: " + makh + " này không?")) {
+            try {
+                this.khdao.delete(makh);
+                MessegerHelper.alert("Xóa thành công", this);
+                this.dtm.removeRow(index);
+                showForm(index > tblKhoaHoc.getRowCount() - 1 ? tblKhoaHoc.getRowCount() - 1 : index);
+            } catch (Exception ex) {
+                MessegerHelper.errorMesseger(new StringBuilder("Không thể xóa khóa học đang có Học Viên!"), this);
+//                ex.printStackTrace();
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
