@@ -72,6 +72,8 @@ public class ReadQRCode extends javax.swing.JDialog implements Runnable, ThreadF
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        result_field.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        result_field.setForeground(new java.awt.Color(255, 0, 0));
         result_field.setBorder(null);
         jPanel1.add(result_field, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 470, 20));
 

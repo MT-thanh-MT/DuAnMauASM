@@ -10,6 +10,7 @@ import com.edusys.Language.LanguageSelected;
 import com.edusys.Language.QLNVLanguage;
 import com.edusys.dao.NhanVienDao;
 import com.edusys.entity.NhanVien;
+import com.edusys.utils.Auth;
 import com.edusys.utils.MessegerHelper;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -535,11 +536,17 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_btnQLNVThemActionPerformed
 
     private void btnQLNVSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLNVSuaActionPerformed
+        if (checkNguoiDungHienTai()) {
+            return;
+        }
         if (suaNhanVien())
             return;
     }//GEN-LAST:event_btnQLNVSuaActionPerformed
 
     private void btnQLNVXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLNVXoaActionPerformed
+        if (checkNguoiDungHienTai()) {
+            return;
+        }
         if (xoaNhanVien())
             return;
     }//GEN-LAST:event_btnQLNVXoaActionPerformed
@@ -722,7 +729,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         int SLDangNhapSai = rdoMoKhoa.isSelected() ? 0 : 5;
         return new NhanVien(manv, matKhau, hoTen, Email, SLDangNhapSai, trangThai, vaiTro);
     }
-    
+
     private void clearForm() {
         //xóa trắng form
         this.txtQLNVMaNV.setText("");
@@ -751,7 +758,6 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         }
     }
 
-
     private boolean mouseClicked() {
         //xử lý sưk kiện click lên table
         this.index = tblQLNV.getSelectedRow();
@@ -768,7 +774,7 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         updateStatus();
         showForm(index);
     }
-    
+
     private void last() {
         index = tblQLNV.getRowCount() - 1;
         updateStatus();
@@ -786,7 +792,6 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
         updateStatus();
         showForm(index);
     }
-
 
     private boolean checkForm() {
         //checkRong
@@ -939,6 +944,15 @@ public class QLNhanVienJPanel extends javax.swing.JPanel {
                 txtTimKiem.setText("Enter staff ID");
             }
         }
+    }
+    
+    
+    private boolean checkNguoiDungHienTai() {
+        if (Auth.nguoiDungHienTai.getMaNV().equals(getForm().getMaNV())) {
+            MessegerHelper.errorMesseger(new StringBuilder("Bạn không thể tự tác động đến tài khoản của mình!"), this);
+            return true;
+        }
+        return false;
     }
 
 }

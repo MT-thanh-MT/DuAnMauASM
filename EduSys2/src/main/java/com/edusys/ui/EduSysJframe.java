@@ -5,6 +5,7 @@
  */
 package com.edusys.ui;
 
+import com.edusys.Game.FrogGame;
 import com.edusys.Language.LanguageSelected;
 import com.edusys.Language.MainFormLanguage;
 import com.edusys.utils.Auth;
@@ -132,6 +133,8 @@ public class EduSysJframe extends javax.swing.JFrame {
         mniTiengViet = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         mniEnglish = new javax.swing.JMenuItem();
+        mnuGame = new javax.swing.JMenu();
+        mniFrog = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("HÊ THỐNG QUẢN LÝ EDUSYS");
@@ -556,6 +559,18 @@ public class EduSysJframe extends javax.swing.JFrame {
 
         jMenuBar1.add(mnuNgonNgu);
 
+        mnuGame.setText("Game");
+
+        mniFrog.setText("Frog");
+        mniFrog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniFrogActionPerformed(evt);
+            }
+        });
+        mnuGame.add(mniFrog);
+
+        jMenuBar1.add(mnuGame);
+
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -708,6 +723,10 @@ public class EduSysJframe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mniTaoQRActionPerformed
 
+    private void mniFrogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniFrogActionPerformed
+        new FrogGame().setVisible(true);
+    }//GEN-LAST:event_mniFrogActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -778,6 +797,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniDoanhThu;
     private javax.swing.JMenuItem mniDoiMatKhau;
     private javax.swing.JMenuItem mniEnglish;
+    private javax.swing.JMenuItem mniFrog;
     private javax.swing.JMenuItem mniGioiThieu;
     private javax.swing.JMenuItem mniHocVien;
     private javax.swing.JMenuItem mniHuongDan;
@@ -788,6 +808,7 @@ public class EduSysJframe extends javax.swing.JFrame {
     private javax.swing.JMenuItem mniTaoQR;
     private javax.swing.JMenuItem mniThoat;
     private javax.swing.JMenuItem mniTiengViet;
+    private javax.swing.JMenu mnuGame;
     private javax.swing.JMenu mnuHeThong;
     private javax.swing.JMenu mnuNgonNgu;
     private javax.swing.JMenu mnuQuanLy;
@@ -989,6 +1010,9 @@ public class EduSysJframe extends javax.swing.JFrame {
             this.mniChuyenDe.setEnabled(true);
             this.mniNhanVien.setEnabled(true);
         }
+        CardLayout layout = (CardLayout) pnlCards.getLayout();
+
+        layout.first(pnlCards);
     }
 
     private void openHuongDanHtml() {
